@@ -2,143 +2,295 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Loja Futebol Top - Profissional</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Loja Futebol Top - Sua Loja de Futebol</title>
 
-<!-- Fontes e Ícones -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" />
+
+<!-- Font Awesome para ícones -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
 <!-- Estilos CSS -->
 <style>
-  /* Reset geral */
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     font-family: 'Montserrat', sans-serif;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
     color: #333;
     line-height: 1.6;
   }
 
-  /* Ícones fixos no canto superior direito (carrinho e login) */
-  #iconContainer {
-    position: fixed; top:20px; right:20px; display:flex; gap:15px; z-index:9999;
+  /* Cabeçalho fixo */
+  .navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 70px;
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 999;
   }
-  /* Ícone carrinho */
-  #cartIcon {
-    position:relative; width:50px; height:50px; background:#000; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.3);
+  .navbar h1 {
+    color: #fff;
+    font-size: 1.8em;
+    letter-spacing: 2px;
   }
-  #cartIcon i { color:#fff; font-size:1.5em; }
-  #cartCount {
-    position:absolute; top:-8px; right:-8px; background:#e63946; width:20px; height:20px; border-radius:50%; display:flex; justify-content:center; align-items:center; color:#fff; font-size:0.75em; font-weight:bold;
+  #auth-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
-  /* Ícone usuário */
-  #userIcon {
-    width:50px; height:50px; background:#000; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.3);
+  #auth-section button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #ff416c;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
   }
-  #userIcon i { color:#fff; font-size:1.5em; }
+  #auth-section button:hover { background-color: #ffe0e0; }
 
-  /* Menu móvel */
-  #menuToggle {
-    display:block; font-size:1.8em; color:#fff; cursor:pointer; padding:10px; position:fixed; top:20px; left:20px; z-index:1000; background:#000; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.3);
+  /* Espaço para o conteúdo abaixo do header */
+  .spacer { height: 70px; }
+
+  /* Menu lateral com botão hambúrguer */
+  #menuButton {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 45px; height: 45px;
+    background-color: #222;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1100;
+    padding: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: background 0.3s;
   }
+  #menuButton:hover { background-color: #444; }
+  #menuButton div {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+  }
+
   /* Menu lateral */
   #sideMenu {
-    position:fixed; top:0; left:-250px; height:100%; width:250px; background:#fff; box-shadow:2px 0 10px rgba(0,0,0,0.2); padding-top:70px; transition:left 0.3s ease; z-index:999;
+    position: fixed;
+    top: 0; left: -250px;
+    width: 250px; height: 100%;
+    background: #fff;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+    padding-top: 70px;
+    transition: left 0.3s ease;
+    z-index: 1099;
   }
-  #sideMenu.open { left:0; }
-  #sideMenu ul { list-style:none; padding:0; }
+  #sideMenu.open { left: 0; }
+  #sideMenu ul {
+    list-style: none;
+  }
   #sideMenu li {
-    padding:15px 20px; border-bottom:1px solid #eee; cursor:pointer; font-weight:500; font-size:1.1em;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1em;
+    display: flex;
+    justify-content: space-between;
   }
-  #sideMenu li:hover { background:#f9f9f9; }
+  #sideMenu li:hover { background-color: #f9f9f9; }
 
-  /* Restante do seu layout (header, banner, produtos, etc.) */
-  header {
-    position: fixed; top:0; left:0; right:0; background:#000; display:flex; justify-content:space-between; align-items:center; padding:10px 20px; box-shadow:0 4px 8px rgba(0,0,0,0.3); z-index:998;
-  }
-  .logo {
-    font-size:1.8em; color:#fff; font-weight:700; cursor:pointer;
-  }
-  /* Botão login estilizado */
-  #userBtn {
-    background:#fff; border:2px solid #2a9d8f; border-radius:8px; cursor:pointer; padding:8px 12px; display:flex; align-items:center; font-family:'Montserrat',sans-serif; font-weight:600; font-size:1em; transition:all 0.3s ease;
-  }
-  #userBtn:hover { background:#2a9d8f; color:#fff; }
-  #userBtn i { margin-right:8px; font-size:1.2em; }
-
-  /* Menu lateral (escondido por padrão, ativado pelo botão) */
-  /* já está acima */
-
-  /* Banner */
+  /* Banner com destaque */
   #banner {
-    margin-top:70px;
-    width: 100%; height: 400px;
+    width: 100%;
+    height: 400px;
     background-image: url('https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
     background-size: cover; background-position: center;
-    position: relative; display:flex; align-items:center; justify-content:center;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
   }
   #banner::after {
-    content:""; position:absolute; top:0; left:0; right:0; bottom:0;
+    content: "";
+    position: absolute; top: 0; left:0; right:0; bottom:0;
     background-color: rgba(0,0,0,0.3);
   }
-  #content {
-    max-width:1200px; margin:40px auto; padding:0 20px;
-  }
-  @media(max-width:768px) {
-    #content { margin-top:80px; }
-  }
 
-  section {
-    margin-bottom:60px;
-  }
-  h2 {
-    text-align:center; margin-bottom:20px;
-    font-size:2em; font-weight:700; color:#222;
-  }
+  /* Conteúdo principal */
+#content {
+  max-width: 1600px;
+  margin: auto;
+  padding: 20px;
+  display: none;
+}
+#content.show { display: block; }
 
-  /* Filtros */
-  .filters {
-    display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-bottom:30px;
-  }
-  .filters select, .filters input {
-    padding:12px 15px; border-radius:8px; border:1px solid #ccc; font-family:'Montserrat',sans-serif; font-size:1em; min-width:200px;
-  }
+section {
+  margin-bottom: 60px;
+}
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+  color: #222;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
 
-  /* Grid produtos */
-  #productGrid {
-    display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;
-  }
+/* Filtros de busca */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.filters select, .filters input {
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1em;
+  min-width: 200px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: box-shadow 0.3s, transform 0.2s;
+}
+.filters select:focus, .filters input:focus {
+  outline: none;
+  box-shadow: 0 0 20px rgba(42,157,143,0.4);
+  transform: scale(1.02);
+}
 
-  /* Cartão produto */
-  .product-card {
-    background:#fff; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1); display:flex; flex-direction:column; overflow:hidden; transition:transform 0.2s, box-shadow 0.2s;
-  }
-  .product-card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.2); }
-  .product-image { width:100%; height:200px; object-fit:cover; }
-  .product-info { padding:15px; display:flex; flex-direction:column; flex-grow:1; justify-content:space-between; }
-  .product-name { font-size:1.2em; font-weight:600; margin-bottom:10px; color:#222; }
-  .product-price { font-size:1.4em; font-weight:700; color:#e76f51; margin-bottom:15px; }
-  .buy-btn {
-    background:#2a9d8f; padding:12px; border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; font-size:1em; transition:background 0.3s;
-  }
-  .buy-btn:hover { background:#218c8f; }
+/* Grid de produtos */
+#productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
 
-  /* Rodapé */
-  footer {
-    background:#222; color:#fff; text-align:center; padding:20px; margin-top:60px;
-  }
-  footer a { color:#f4a261; text-decoration:none; }
-  footer a:hover { text-decoration:underline; }
+/* Cartões de produtos */
+.product-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+.product-image:hover { transform: scale(1.02); }
+.product-info {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+.product-name {
+  font-size: 1.2em;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #222;
+}
+.product-price {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #e76f51;
+  margin-bottom: 15px;
+}
+.buy-btn {
+  padding: 12px;
+  background-color: #2a9d8f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+.buy-btn:hover { background-color: #218c8f; transform: scale(1.02); }
 
-  /* Ícones fixos carrinho e login - já definidos acima */
+/* Modal de login/registro e carrinho */
+#modal {
+  display: none;
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.75);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+#modal.active { display: flex; }
+#modal .modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 600px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: fadeIn 0.4s ease;
+}
+#modal .close {
+  position: absolute; top:10px; right:15px;
+  font-size: 1.8em; cursor:pointer; color: #555;
+}
+#modal .close:hover { color: #222; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Rodapé */
+footer {
+  background-color: #222;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  font-size: 0.9em;
+  margin-top: 60px;
+}
+
+/* Ícones fixos: carrinho e usuário */
+#iconContainer {
+  position: fixed; top:20px; right:20px; display:flex; gap:15px; z-index: 1100;
+}
+#iconContainer div {
+  width:50px; height:50px; background:#000; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  position: relative;
+}
+#iconContainer i { color:#fff; font-size: 1.2em; }
+#cartCount {
+  position: absolute; top:-8px; right:-8px; background:#e63946; width:20px; height:20px; border-radius:50%; display:flex; justify-content:center; align-items:center; color:#fff; font-size:0.75em; font-weight: bold; }
+
 </style>
 </head>
 <body>
 
-<!-- Menu botão hambúrguer (visível em mobile) -->
-<div id="menuToggle" title="Menu"><i class="fas fa-bars"></i></div>
+<!-- Botão hambúrguer -->
+<div id="menuButton" title="Menu">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
 
 <!-- Menu lateral -->
 <nav id="sideMenu">
@@ -158,307 +310,300 @@
   </ul>
 </nav>
 
-<!-- Ícones fixos de carrinho e login -->
-<div id="iconContainer">
-  <!-- Carrinho -->
-  <div id="cartIcon" title="Ver Carrinho">
-    <i class="fas fa-shopping-cart"></i>
-    <div id="cartCount">0</div>
-  </div>
-  <!-- Login -->
-  <div id="userIcon" title="Entrar / Registrar">
-    <i class="fas fa-user"></i>
+<!-- Cabeçalho fixo -->
+<div class="navbar">
+  <h1>Loja Futebol Top</h1>
+  <div id="auth-section">
+    <button id="loginBtn">Login / Registrar</button>
   </div>
 </div>
+<div class="spacer"></div>
 
 <!-- Banner -->
 <div id="banner"></div>
 
-<!-- Conteúdo -->
-<div style="margin-top:70px;"></div>
+<!-- Conteúdo principal, inicialmente escondido -->
+<div id="content">
 
-<section id="productsSection">
-  <h2 class="section-title">Produtos de Futebol</h2>
-  <div class="filters">
-    <select id="categoryFilter" aria-label="Filtrar por categoria">
-      <option value="all">Todas as categorias</option>
-      <option value="camisola">Camisolas</option>
-      <option value="chuteira">Chuteiras</option>
-      <option value="fato">Fatos de treino</option>
-    </select>
-    <select id="brandFilter" aria-label="Filtrar por marca">
-      <option value="all">Todas as marcas</option>
-      <option value="Nike">Nike</option>
-      <option value="Adidas">Adidas</option>
-      <option value="Puma">Puma</option>
-    </select>
-    <input type="text" id="searchInput" placeholder="Pesquisar..." aria-label="Pesquisar produtos" />
-  </div>
-  <div id="productGrid"></div>
-</section>
+  <!-- Produtos -->
+  <section id="produtos">
+    <h2>Produtos de Futebol</h2>
+    <div class="filters">
+      <select id="categoryFilter" aria-label="Filtrar por categoria" title="Filtrar por categoria">
+        <option value="all">Todas as categorias</option>
+        <option value="camisola">Camisolas</option>
+        <option value="chuteira">Chuteiras</option>
+        <option value="fato">Fatos de treino</option>
+      </select>
+      <select id="brandFilter" aria-label="Filtrar por marca" title="Filtrar por marca">
+        <option value="all">Todas as marcas</option>
+        <option value="Nike">Nike</option>
+        <option value="Adidas">Adidas</option>
+        <option value="Puma">Puma</option>
+      </select>
+      <input type="text" id="searchInput" placeholder="Pesquisar..." />
+    </div>
+    <div class="products-grid" id="productGrid"></div>
+  </section>
 
-<section id="about" style="background:#e0e0e0; padding:40px 20px;">
-  <h2 class="section-title">Sobre Nós</h2>
-  <p style="max-width:800px; margin:auto; font-size:1.1em; text-align:center;">
-    Somos a loja líder em equipamentos de futebol, oferecendo camisolas, chuteiras, fatos de treino e acessórios de alta qualidade. Nosso objetivo é ajudar você a alcançar o seu melhor em campo!
-  </p>
-</section>
-
-<section id="contact" style="padding:40px 20px;">
-  <h2 class="section-title">Contato</h2>
-  <p style="max-width:800px; margin:auto; font-size:1.1em; text-align:center;">
-    Email: suporte@lojafutebol.com | Telefone: +351 912 345 678 | Endereço: Rua do Esporte, Lisboa
-  </p>
-</section>
-
-<!-- Rodapé -->
-<footer>
-  <p>© 2024 Loja Futebol Top. Todos os direitos reservados.</p>
-</footer>
-
-<!-- Modal login -->
-<div class="modal" id="authModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
-  <div class="modal-content" style="background:#fff; padding:40px; border-radius:12px; max-width:600px; width:100%; position:relative;">
-    <div class="close-btn" id="closeAuth" style="position:absolute; top:10px; right:15px; font-size:1.8em; cursor:pointer;">&times;</div>
-    <h3 id="authTitle">Entrar na Conta</h3>
-    <form id="authForm" onsubmit="return false;">
-      <input type="text" id="authUser" placeholder="Nome de usuário" required style="width:100%; padding:10px; margin-top:15px; border-radius:8px; border:1px solid #ccc;">
-      <input type="password" id="authPass" placeholder="Senha" required style="width:100%; padding:10px; margin-top:15px; border-radius:8px; border:1px solid #ccc;">
-      <button type="submit" style="width:100%; padding:10px; margin-top:15px; background:#2a9d8f; color:#fff; border:none; border-radius:8px; cursor:pointer;">Entrar</button>
-    </form>
-    <div id="authMessage"></div>
-    <p style="margin-top:15px; text-align:center;">
-      <a href="#" id="switchAuthLink" style="color:#2a9d8f; font-weight:600; text-decoration:none;">Criar uma nova conta</a>
+  <!-- Sobre -->
+  <section id="sobre" style="background:#e0e0e0;">
+    <h2>Sobre Nós</h2>
+    <p style="max-width:800px; margin:auto; font-size:1.1em; text-align:center;">
+      Somos a loja líder em equipamentos de futebol, oferecendo camisolas, chuteiras, fatos de treino e acessórios de alta qualidade. Nosso objetivo é ajudar você a alcançar o seu melhor em campo!
     </p>
+  </section>
+
+  <!-- Contato -->
+  <section id="contato">
+    <h2>Contato</h2>
+    <p style="max-width:800px; margin:auto; font-size:1.1em; text-align:center;">
+      Email: suporte@lojafutebol.com | Telefone: +351 912 345 678 | Endereço: Rua do Esporte, Lisboa
+    </p>
+  </section>
+
+  <!-- Rodapé -->
+  <footer>
+    <p>© 2024 Loja Futebol Top. Todos os direitos reservados.</p>
+  </footer>
+
+</div>
+
+<!-- Modal de login/registro -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <div class="close" id="closeModal">&times;</div>
+    <h3 id="modalTitle">Login</h3>
+    <input type="text" id="modalUser" placeholder="Nome de usuário" />
+    <input type="password" id="modalPass" placeholder="Senha" />
+    <button id="modalActionBtn">Entrar</button>
+    <p style="margin-top:15px; text-align:center;">Ainda não tem conta? <a href="#" id="switchModal">Registrar-se</a></p>
   </div>
 </div>
 
 <!-- Modal Carrinho -->
-<div class="modal" id="cartModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
-  <div class="modal-content" style="background:#fff; padding:40px; border-radius:12px; max-width:600px; width:100%; max-height:80%; overflow-y:auto; position:relative;">
-    <div id="closeCart" style="position:absolute; top:10px; right:15px; font-size:1.8em; cursor:pointer;">&times;</div>
-    <h3 style="margin-bottom:20px;">Carrinho de Compras</h3>
+<div id="cart" class="modal">
+  <div class="modal-content" style="max-height:80%; overflow-y:auto;">
+    <div class="close" id="closeCart">&times;</div>
+    <h3 style="text-align:center; margin-bottom:20px;">Carrinho de Compras</h3>
     <div id="cartItems"></div>
-    <button id="finalizeBtn" style="width:100%; padding:10px; margin-top:15px; background:#2a9d8f; color:#fff; border:none; border-radius:8px; cursor:pointer;">Finalizar Compra</button>
+    <button id="finalizarCompra" style="width:100%; padding:15px; background:#27ae60; color:#fff; border:none; border-radius:8px; font-size:1.2em; margin-top:20px;">Finalizar Compra</button>
   </div>
 </div>
 
 <!-- Scripts -->
 <script>
-  // Dados exemplo de produtos
+  // Dados produtos
   const produtos = [
-    { id: 1, nome: "Camisola Nike Match", categoria: "camisola", marca: "Nike", preco: 45, imagem: "https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 2, nome: "Chuteira Adidas Predator", categoria: "chuteira", marca: "Adidas", preco: 120, imagem: "https://images.unsplash.com/photo-1607785055400-8d36fa4f6a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 3, nome: "Fato Puma Treino", categoria: "fato", marca: "Puma", preco: 60, imagem: "https://images.unsplash.com/photo-1618706357483-7f8d3a6f0f05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 4, nome: "Camisola Adidas Home", categoria: "camisola", marca: "Adidas", preco: 50, imagem: "https://images.unsplash.com/photo-1628076572753-8b3e2d682b75?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 5, nome: "Chuteira Nike Phantom", categoria: "chuteira", marca: "Nike", preco: 130, imagem: "https://images.unsplash.com/photo-1628390209642-2a6b0f6f2e1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 6, nome: "Fato Puma Treino", categoria: "fato", marca: "Puma", preco: 55, imagem: "https://images.unsplash.com/photo-1626541234567-1234567890ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 7, nome: "Camisola Nike Away", categoria: "camisola", marca: "Nike", preco: 48, imagem: "https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 8, nome: "Chuteira Adidas Speed", categoria: "chuteira", marca: "Adidas", preco: 140, imagem: "https://images.unsplash.com/photo-1607785055400-8d36fa4f6a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
+    { id:1, nome:"Camisola Nike Match", categoria:"camisola", marca:"Nike", preco:45, imagem:"https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id:2, nome:"Chuteira Adidas Predator", categoria:"chuteira", marca:"Adidas", preco:120, imagem:"https://images.unsplash.com/photo-1607785055400-8d36fa4f6a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id:3, nome:"Fato Puma Treino", categoria:"fato", marca:"Puma", preco:60, imagem:"https://images.unsplash.com/photo-1618706357483-7f8d3a6f0f05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id:4, nome:"Camisola Adidas Home", categoria:"camisola", marca:"Adidas", preco:50, imagem:"https://images.unsplash.com/photo-1628076572753-8b3e2d682b75?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id:5, nome:"Chuteira Nike Phantom", categoria:"chuteira", marca:"Nike", preco:130, imagem:"https://images.unsplash.com/photo-1628390209642-2a6b0f6f2e1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id:6, nome:"Fato Puma Treino", categoria:"fato", marca:"Puma", preco:55, imagem:"https://images.unsplash.com/photo-1626541234567-1234567890ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id:7, nome:"Camisola Nike Away", categoria:"camisola", marca:"Nike", preco:48, imagem:"https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id:8, nome:"Chuteira Adidas Speed", categoria:"chuteira", marca:"Adidas", preco:140, imagem:"https://images.unsplash.com/photo-1607785055400-8d36fa4f6a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
   ];
 
-  // Carrinho
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-  let usuarios = JSON.parse(localStorage.getItem('usuarios')) || {};
-  let logado = localStorage.getItem('user') || null;
+  let userLogado = localStorage.getItem('user') || null;
+  let modoAuth = 'login'; // ou 'register'
 
-  // Elementos principais
-  const btnAuth = document.getElementById('userIcon');
-  const cartBtn = document.getElementById('cartIcon');
-  const authModal = document.getElementById('authModal');
-  const closeAuth = document.getElementById('closeAuth');
-  const authTitle = document.getElementById('authTitle');
-  const authUser = document.getElementById('authUser');
-  const authPass = document.getElementById('authPass');
-  const authForm = document.getElementById('authForm');
-  const authMessage = document.getElementById('authMessage');
-  const authActionBtn = document.querySelector('#authForm button');
-  const switchAuthLink = document.getElementById('switchAuthLink');
+  // Elementos
+  const btnLogin = document.getElementById('loginBtn');
+  const authSection = document.getElementById('auth-section');
+  const modal = document.getElementById('modal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalUser = document.getElementById('modalUser');
+  const modalPass = document.getElementById('modalPass');
+  const modalBtn = document.getElementById('modalActionBtn');
+  const switchLink = document.getElementById('switchModal');
+  const closeModalBtn = document.getElementById('closeModal');
 
-  const cartModal = document.getElementById('cartModal');
+  const cartModal = document.getElementById('cart');
   const closeCartBtn = document.getElementById('closeCart');
   const cartItemsDiv = document.getElementById('cartItems');
-  const finalizeBtn = document.getElementById('finalizeBtn');
+  const finalizarBtn = document.getElementById('finalizarCompra');
 
   const productGrid = document.getElementById('productGrid');
   const categoryFilter = document.getElementById('categoryFilter');
   const brandFilter = document.getElementById('brandFilter');
   const searchInput = document.getElementById('searchInput');
 
-  // Botões do menu lateral
+  const menuBtn = document.getElementById('menuButton');
   const sideMenu = document.getElementById('sideMenu');
-  const menuToggle = document.getElementById('menuToggle');
 
-  // Atualiza o contador do carrinho
-  function atualizarContador() {
-    document.getElementById('cartCount').innerText = carrinho.length;
+  // Funções
+  function atualizarContadorCarrinho() {
+    document.querySelector('#iconContainer #cartCount').innerText = carrinho.length;
   }
 
-  // Função para abrir o menu lateral
-  menuToggle.onclick = () => {
-    sideMenu.classList.toggle('open');
-  };
-
-  // também fechar o menu ao clicar fora
-  document.onclick = (e) => {
-    if (sideMenu.classList.contains('open') && !sideMenu.contains(e.target) && e.target !== menuToggle) {
-      sideMenu.classList.remove('open');
-    }
-  };
-
-  // Função para abrir modal de login
-  let modo = { tipo: 'login' };
-  document.getElementById('userIcon').onclick = () => { abrirModalAuth('login'); };
-  // Abrir modal carrinho
-  document.getElementById('cartIcon').onclick = () => {
-    mostrarCarrinho();
-    document.getElementById('cartModal').style.display='flex';
-  };
-  document.getElementById('closeAuth').onclick = () => { document.getElementById('authModal').style.display='none'; };
-  document.getElementById('closeCart').onclick = () => { document.getElementById('cartModal').style.display='none'; };
-
-  // Abrir modal de autenticação
-  function abrirModalAuth(tipo) {
-    modo.tipo = tipo;
-    document.getElementById('authTitle').innerText = tipo === 'login' ? 'Entrar na Conta' : 'Criar Conta';
-    document.getElementById('authUser').value = '';
-    document.getElementById('authPass').value = '';
-    document.getElementById('authMessage').innerText = '';
-    document.getElementById('authModal').style.display='flex';
-  }
-
-  // Trocar entre login e cadastro
-  document.getElementById('switchAuthLink').onclick = (e) => {
-    e.preventDefault();
-    modo.tipo = modo.tipo === 'login' ? 'register' : 'login';
-    abrirModalAuth(modo.tipo);
-  };
-
-  // Processo de login ou cadastro
-  document.getElementById('authForm').onsubmit = () => {
-    const usuario = document.getElementById('authUser').value.trim();
-    const senha = document.getElementById('authPass').value.trim();
-    if (!usuario || !senha) {
-      document.getElementById('authMessage').innerText='Preencha todos os campos.';
-      return false;
-    }
-    if (modo.tipo === 'login') {
-      if (usuarios[usuario] && usuarios[usuario]===senha) {
-        localStorage.setItem('user', usuario);
-        logado = usuario;
-        atualizarLogin();
-        document.getElementById('authModal').style.display='none';
-      } else {
-        document.getElementById('authMessage').innerText='Credenciais inválidas.';
-      }
-    } else {
-      // Registro
-      if (usuarios[usuario]) {
-        document.getElementById('authMessage').innerText='Usuário já existe.';
-      } else {
-        usuarios[usuario] = senha;
-        localStorage.setItem('usuarios', JSON.stringify(usuarios));
-        alert('Conta criada! Faça login.');
-        abrirModalAuth('login');
-      }
-    }
-    return false;
-  };
-
-  // Atualizar interface de login
-  function atualizarLogin() {
-    if (logado) {
-      document.getElementById('userIcon').innerHTML = `<span style="color:#fff;">${logado} (Sair)</span>`;
-      document.getElementById('userIcon').onclick=()=> {
+  function verificarLogin() {
+    if (userLogado) {
+      authSection.innerHTML = `
+        <span style="color:#fff; font-weight:600;">Olá, ${userLogado}!</span>
+        <button id="logoutBtn">Sair</button>
+      `;
+      document.getElementById('logoutBtn').onclick = () => {
         localStorage.removeItem('user');
-        logado=null;
-        atualizarLogin();
+        userLogado = null;
+        verificarLogin();
       };
     } else {
-      document.getElementById('userIcon').innerHTML = `<i class="fas fa-user"></i>`;
-      document.getElementById('userIcon').onclick=()=> { abrirModalAuth('login'); };
+      authSection.innerHTML = `<button id="loginBtn">Login / Registrar</button>`;
+      document.getElementById('loginBtn').onclick = () => {
+        modoAuth='login';
+        abrirModalAuth();
+      };
     }
+  }
+
+  function abrirModalAuth() {
+    modoAuth = (modoAuth==='login') ? 'register' : 'login';
+    if (modoAuth==='login') {
+      modalTitle.innerText='Login';
+      switchLink.innerHTML='Ainda não tem conta? <a href="#" id="switchAuth">Registrar-se</a>';
+    } else {
+      modalTitle.innerText='Registrar-se';
+      switchLink.innerHTML='Já possui conta? <a href="#" id="switchAuth">Entrar</a>';
+    }
+    modalUser.value='';
+    modalPass.value='';
+    document.getElementById('authMessage') && (document.getElementById('authMessage').innerText='');
+    document.getElementById('modal').classList.add('active');
+
+    // evento switch
+    document.getElementById('switchAuth') && document.getElementById('switchAuth').onclick = (e) => {
+      e.preventDefault();
+      abrirModalAuth();
+    }
+  }
+
+  document.getElementById('closeModal').onclick = () => {
+    document.getElementById('modal').classList.remove('active');
+  }
+
+  document.getElementById('modalActionBtn').onclick = () => {
+    const user = modalUser.value.trim();
+    const pass = modalPass.value.trim();
+    if (!user || !pass) { alert('Preencha todos os campos'); return; }
+
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || {};
+
+    if (modoAuth==='login') {
+      if (usuarios[user] && usuarios[user]===pass) {
+        localStorage.setItem('user', user);
+        userLogado = user;
+        verificarLogin();
+        document.getElementById('modal').classList.remove('active');
+      } else {
+        alert('Credenciais inválidas');
+      }
+    } else {
+      if (usuarios[user]) {
+        alert('Usuário já existe');
+      } else {
+        usuarios[user]=pass;
+        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+        alert('Conta criada! Faça login.');
+        abrirModalAuth(); // volta ao login
+      }
+    }
+  }
+
+  // Logout
+  function logout() {
+    localStorage.removeItem('user');
+    userLogado = null;
+    verificarLogin();
   }
 
   // Mostrar carrinho
   function mostrarCarrinho() {
-    const container = document.getElementById('cartItems');
-    container.innerHTML='';
+    cartItemsDiv.innerHTML='';
     if (carrinho.length===0) {
-      container.innerHTML='<p style="text-align:center; padding:20px;">Carrinho vazio.</p>';
-      document.getElementById('finalizeBtn').style.display='none';
+      cartItemsDiv.innerHTML='<p style="text-align:center; padding:20px;">Carrinho vazio.</p>';
+      finalizarBtn.style.display='none';
       return;
     }
-    let total=0;
-    carrinho.forEach((item,i) => {
-      total+=item.preco;
+    carrinho.forEach((p,i) => {
       const div = document.createElement('div');
-      div.style.display='flex'; div.style.alignItems='center'; div.style.justifyContent='space-between'; div.style.padding='10px 0'; div.style.borderBottom='1px solid #ccc';
-      div.innerHTML= `
-        <div style="display:flex; align-items:center; gap:10px;">
-          <img src="${item.imagem}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;" />
-          <div>
-            <div style="font-weight:600;">${item.nome}</div>
-            <div style="color:#e63946;">€${item.preco.toFixed(2)}</div>
-          </div>
+      div.className='cart-item';
+      div.innerHTML=`
+        <img src="${p.imagem}" />
+        <div>
+          <h4>${p.nome}</h4>
+          <p>€${p.preco.toFixed(2)}</p>
         </div>
-        <button style="background:none; border:none; color:#e63946; font-size:1.2em; cursor:pointer;" onclick="removerItem(${i})">&times;</button>
+        <button class="remove" onclick="removerItem(${i})">&times;</button>
       `;
-      container.appendChild(div);
+      cartItemsDiv.appendChild(div);
     });
-    document.getElementById('finalizeBtn').style.display='block';
+    finalizarBtn.style.display='block';
   }
 
   function removerItem(i) {
     carrinho.splice(i,1);
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
     mostrarCarrinho();
-    atualizarContador();
+    atualizarContadorCarrinho();
   }
 
-  document.getElementById('finalizeBtn').onclick = () => {
+  // Finalizar compra
+  document.getElementById('finalizarCompra').onclick = () => {
+    if (carrinho.length===0) { alert('Carrinho vazio'); return; }
     alert('Compra finalizada! Obrigado.');
     carrinho = [];
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    localStorage.removeItem('carrinho');
     mostrarCarrinho();
-    atualizarContador();
-  };
+    atualizarContadorCarrinho();
+  }
 
-  // Renderizar produtos e filtros
-  const produtos = [
-    { id: 1, nome: "Camisola Nike Match", categoria: "camisola", marca: "Nike", preco: 45, imagem: "https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 2, nome: "Chuteira Adidas Predator", categoria: "chuteira", marca: "Adidas", preco: 120, imagem: "https://images.unsplash.com/photo-1607785055400-8d36fa4f6a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 3, nome: "Fato Puma Treino", categoria: "fato", marca: "Puma", preco: 60, imagem: "https://images.unsplash.com/photo-1618706357483-7f8d3a6f0f05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 4, nome: "Camisola Adidas Home", categoria: "camisola", marca: "Adidas", preco: 50, imagem: "https://images.unsplash.com/photo-1628076572753-8b3e2d682b75?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 5, nome: "Chuteira Nike Phantom", categoria: "chuteira", marca: "Nike", preco: 130, imagem: "https://images.unsplash.com/photo-1628390209642-2a6b0f6f2e1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 6, nome: "Fato Puma Treino", categoria: "fato", marca: "Puma", preco: 55, imagem: "https://images.unsplash.com/photo-1626541234567-1234567890ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 7, nome: "Camisola Nike Away", categoria: "camisola", marca: "Nike", preco: 48, imagem: "https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    { id: 8, nome: "Chuteira Adidas Speed", categoria: "chuteira", marca: "Adidas", preco: 140, imagem: "https://images.unsplash.com/photo-1607785055400-8d36fa4f6a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
-  ];
+  // Adicionar produto ao carrinho
+  window.adicionarAoCarrinho = (id) => {
+    const prod = produtos.find(p=>p.id===id);
+    if (prod) {
+      carrinho.push(prod);
+      localStorage.setItem('carrinho', JSON.stringify(carrinho));
+      alert(`"${prod.nome}" adicionado ao carrinho`);
+      atualizarContadorCarrinho();
+    }
+  }
 
-  function renderizarProdutos() {
-    const filtroCategoria = document.getElementById('categoryFilter').value;
-    const filtroMarca = document.getElementById('brandFilter').value;
-    const termoBusca = document.getElementById('searchInput').value.toLowerCase();
-    const grid = document.getElementById('productGrid');
-    grid.innerHTML='';
+  // Filtros
+  document.getElementById('categoryFilter').addEventListener('change', filtrarProdutos);
+  document.getElementById('brandFilter').addEventListener('change', filtrarProdutos);
+  document.getElementById('searchInput').addEventListener('input', filtrarProdutos);
 
-    const filtrados = produtos.filter(p => 
-      (filtroCategoria==='all' || p.categoria===filtroCategoria) &&
-      (filtroMarca==='all' || p.marca===filtroMarca) &&
-      p.nome.toLowerCase().includes(termoBusca)
+  function filtrarProdutos() {
+    const cat = document.getElementById('categoryFilter').value;
+    const marca = document.getElementById('brandFilter').value;
+    const termo = document.getElementById('searchInput').value.toLowerCase();
+
+    const filtrados = produtos.filter(p =>
+      (cat==='all' || p.categoria===cat) &&
+      (marca==='all' || p.marca===marca) &&
+      p.nome.toLowerCase().includes(termo)
     );
 
-    if(filtrados.length===0){
-      grid.innerHTML='<p style="grid-column:1/-1; text-align:center; padding:40px;">Nenhum produto encontrado.</p>';
+    renderizarProdutos(filtrados);
+  }
+
+  function renderizarProdutos(lista) {
+    const container = document.getElementById('productGrid');
+    container.innerHTML='';
+    if (!lista) lista=produtos;
+
+    if (lista.length===0) {
+      container.innerHTML='<p style="grid-column:1/-1; text-align:center; padding:40px; font-size:1.2em;">Nenhum produto encontrado.</p>';
       return;
     }
 
-    filtrados.forEach(p => {
-      const card = document.createElement('div');
-      card.className='product-card';
-      card.innerHTML= `
-        <img src="${p.imagem}" class="product-image" />
+    lista.forEach(p => {
+      const div = document.createElement('div');
+      div.className='product-card';
+      div.innerHTML=`
+        <img src="${p.imagem}" />
         <div class="product-info">
           <div>
             <div class="product-name">${p.nome}</div>
@@ -467,88 +612,23 @@
           <button class="buy-btn" onclick="adicionarAoCarrinho(${p.id})">Adicionar ao Carrinho</button>
         </div>
       `;
-      grid.appendChild(card);
+      document.getElementById('productGrid').appendChild(div);
     });
   }
 
-  function adicionarAoCarrinho(id) {
-    const produto = produtos.find(p=>p.id===id);
-    if(produto){
-      carrinho.push(produto);
-      localStorage.setItem('carrinho', JSON.stringify(carrinho));
-      alert(`"${produto.nome}" adicionado ao carrinho`);
-      atualizarContador();
-    }
-  }
-
-  // Atualiza o contador do carrinho
-  function atualizarContador() {
-    document.getElementById('cartCount').innerText = carrinho.length;
-  }
-
-  // Carregar a página
-  renderizarProdutos();
-  atualizarContador();
-  atualizarLogin();
-
-  // Funções adicionais
-  function removerItem(i){
-    carrinho.splice(i,1);
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
-    mostrarCarrinho();
-    atualizarContador();
-  }
-
-  document.getElementById('finalizeBtn').onclick = () => {
-    alert('Compra finalizada! Obrigado.');
-    carrinho = [];
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
-    mostrarCarrinho();
-    atualizarContador();
+  // Controle do menu lateral
+  document.getElementById('menuButton').onclick = () => {
+    document.getElementById('sideMenu').classList.toggle('open');
   };
 
-  // Exibir carrinho
-  function mostrarCarrinho() {
-    const container = document.getElementById('cartItems');
-    container.innerHTML='';
-    if(carrinho.length===0){
-      container.innerHTML='<p style="text-align:center; padding:20px;">Carrinho vazio.</p>';
-      document.getElementById('finalizeBtn').style.display='none';
-      return;
-    }
-    carrinho.forEach((item,i) => {
-      const div = document.createElement('div');
-      div.style.display='flex'; div.style.alignItems='center'; div.style.justifyContent='space-between'; div.style.padding='10px 0'; div.style.borderBottom='1px solid #ccc';
-      div.innerHTML= `
-        <div style="display:flex; align-items:center; gap:10px;">
-          <img src="${item.imagem}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;" />
-          <div>
-            <div style="font-weight:600;">${item.nome}</div>
-            <div style="color:#e63946;">€${item.preco.toFixed(2)}</div>
-          </div>
-        </div>
-        <button style="background:none; border:none; color:#e63946; font-size:1.2em; cursor:pointer;" onclick="removerItem(${i})">&times;</button>
-      `;
-      container.appendChild(div);
-    });
-    document.getElementById('finalizeBtn').style.display='block';
-  }
+  // Load inicial
+  window.onload = () => {
+    verificarLogin();
+    renderizarProdutos();
+    atualizarContadorCarrinho();
+    document.getElementById('content').style.display='block';
+  };
 
-  // Atualizar login
-  function atualizarLogin() {
-    if(logado){
-      document.getElementById('userIcon').innerHTML=`<span style="color:#fff;">${logado} (Sair)</span>`;
-      document.getElementById('userIcon').onclick=()=> {
-        localStorage.removeItem('user');
-        logado=null;
-        atualizarLogin();
-      };
-    }else{
-      document.getElementById('userIcon').innerHTML=`<i class="fas fa-user"></i>`;
-      document.getElementById('userIcon').onclick=()=> { abrirModalAuth('login'); };
-    }
-  }
 </script>
-
 </body>
 </html>
