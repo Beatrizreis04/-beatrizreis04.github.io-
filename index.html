@@ -232,7 +232,49 @@
   }
   #cartButton:hover { background:#219150; }
 
-  /* Ícone usuário estilizado no canto superior direito */
+  /* Ícone de menu com várias opções (no canto superior direito) */
+  .menu-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 1.8em;
+    color: #2a9d8f;
+    cursor: pointer;
+    z-index: 1000;
+    padding: 10px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: background 0.3s, transform 0.2s;
+  }
+  .menu-icon:hover {
+    background: #f0f0f0;
+    transform: scale(1.1);
+  }
+
+  /* Menu dropdown */
+  .dropdown-menu {
+    position: fixed;
+    top: 60px; /* abaixo do ícone */
+    right: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: none; /* oculto inicialmente */
+    flex-direction: column;
+    min-width: 150px;
+    z-index: 999;
+  }
+  .dropdown-menu a {
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #222;
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s;
+  }
+  .dropdown-menu a:hover {
+    background: #f0f0f0;
+  }
 </style>
 </head>
 <body>
@@ -263,6 +305,16 @@
 
 <!-- Botão Carrinho -->
 <div id="cartButton"><i class="fas fa-shopping-cart"></i> Carrinho</div>
+
+<!-- Ícone de menu com menu dropdown -->
+<div class="menu-icon" id="menuDropdown"><i class="fas fa-ellipsis-v"></i></div>
+<!-- Menu dropdown oculto -->
+<div class="dropdown-menu" id="dropdownMenu">
+  <a href="#">Opção 1</a>
+  <a href="#">Opção 2</a>
+  <a href="#">Opção 3</a>
+  <a href="#">Opção 4</a>
+</div>
 
 <!-- Cabeçalho -->
 <header>
@@ -392,6 +444,9 @@
   const sideMenu = document.getElementById('sideMenu');
 
   const cartButton = document.getElementById('cartButton');
+
+  const menuDropdown = document.getElementById('menuDropdown');
+  const dropdownMenu = document.getElementById('dropdownMenu');
 
   // Estado
   let modoAuth = 'login';
@@ -594,6 +649,25 @@
   function salvarCarrinho() {
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
   }
+
+  // Controle do menu dropdown
+  const menuIcon = document.getElementById('menuDropdown');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+
+  menuIcon.onclick = () => {
+    if (dropdownMenu.style.display === 'flex') {
+      dropdownMenu.style.display = 'none';
+    } else {
+      dropdownMenu.style.display = 'flex';
+    }
+  };
+
+  // Fechar menu dropdown ao clicar fora
+  document.addEventListener('click', (e) => {
+    if (!dropdownMenu.contains(e.target) && !menuIcon.contains(e.target)) {
+      dropdownMenu.style.display = 'none';
+    }
+  });
 
   // Início
   verificarLogin();
