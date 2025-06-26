@@ -11,7 +11,7 @@
 
 <!-- Estilos CSS -->
 <style>
-  /* Reset */
+  /* Reset geral */
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
@@ -21,163 +21,72 @@
     line-height: 1.6;
   }
 
-  /* Ícones fixos no canto superior direito */
+  /* Ícones fixos no canto superior direito (carrinho e login) */
   #iconContainer {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 15px;
-    z-index: 9999;
+    position: fixed; top:20px; right:20px; display:flex; gap:15px; z-index:9999;
   }
-
-  /* Estilo comum para os ícones */
-  .iconBtn {
-    background: #000;
-    color: #fff;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    transition: background 0.3s, transform 0.2s;
+  /* Ícone carrinho */
+  #cartIcon {
+    position:relative; width:50px; height:50px; background:#000; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.3);
   }
-
-  .iconBtn:hover {
-    background: #333;
-    transform: scale(1.1);
-  }
-
-  /* Contador do carrinho */
+  #cartIcon i { color:#fff; font-size:1.5em; }
   #cartCount {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: #e63946;
-    color: #fff;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    font-size: 0.75em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    position:absolute; top:-8px; right:-8px; background:#e63946; width:20px; height:20px; border-radius:50%; display:flex; justify-content:center; align-items:center; color:#fff; font-size:0.75em; font-weight:bold;
   }
-
-  /* Ícone do usuário */
+  /* Ícone usuário */
   #userIcon {
-    font-size: 1.5em;
+    width:50px; height:50px; background:#000; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.3);
+  }
+  #userIcon i { color:#fff; font-size:1.5em; }
+
+  /* Modal login */
+  #authModal {
+    display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;
+  }
+  #authModal.show { display:flex; }
+  #authModal .modal-content {
+    background:#fff; padding:30px; border-radius:12px; max-width:400px; width:100%; position:relative;
+  }
+  #closeAuth {
+    position:absolute; top:10px; right:15px; font-size:1.5em; cursor:pointer;
+  }
+  #authMessage {
+    margin-top:10px; color:red; font-size:0.9em; text-align:center;
   }
 
-  /* Modal login/carrinho (mantém seu estilo anterior) */
-  .modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    padding: 20px;
+  /* Modal carrinho */
+  #cartModal {
+    display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;
   }
-  .modal.show { display: flex; }
-  .modal-content {
-    background: #fff;
-    border-radius: 12px;
-    padding: 30px;
-    max-width: 600px;
-    width: 100%;
-    position: relative;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  #cartModal.show { display:flex; }
+  #cartModal .modal-content {
+    background:#fff; padding:30px; border-radius:12px; max-width:600px; width:100%; max-height:80%; overflow-y:auto; position:relative;
   }
-  .close-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 1.8em;
-    cursor: pointer;
-    color: #999;
-  }
-  /* Restante do seu CSS (header, banner, produtos, etc.) permanece igual, omitido aqui para foco no que foi solicitado */
-  /* ... (código CSS anterior) ... */
-
-  /* Para facilitar, aqui está o restante do seu CSS sem alterações principais, só para manutenção do layout e estilos */
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
+  #closeCart {
+    position:absolute; top:10px; right:15px; font-size:1.5em; cursor:pointer;
   }
 
-  /* Cabeçalho profissional */
+  /* Restante do seu layout (header, banner, produtos, etc.) */
   header {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    background: #000; /* fundo escuro */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    z-index: 998;
+    position: fixed; top:0; left:0; right:0; background:#000; display:flex; justify-content:space-between; align-items:center; padding:10px 20px; box-shadow:0 4px 8px rgba(0,0,0,0.3); z-index:998;
   }
-
   .logo {
-    font-size: 1.8em;
-    color: #fff; /* texto branco */
-    font-weight: 700;
-    cursor: pointer;
+    font-size:1.8em; color:#fff; font-weight:700; cursor:pointer;
   }
-
-  /* Botão de login estilo cartão no canto superior direito */
+  /* Botão login estilizado */
   #userBtn {
-    background: #fff;
-    border: 2px solid #2a9d8f;
-    border-radius: 8px;
-    cursor: pointer;
-    padding: 8px 12px;
-    display: flex;
-    align-items: center;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    font-size: 1em;
-    transition: all 0.3s ease;
+    background:#fff; border:2px solid #2a9d8f; border-radius:8px; cursor:pointer; padding:8px 12px; display:flex; align-items:center; font-family:'Montserrat',sans-serif; font-weight:600; font-size:1em; transition:all 0.3s ease;
   }
-
-  #userBtn:hover {
-    background-color: #2a9d8f;
-    color: #fff;
-  }
-
-  #userBtn i {
-    margin-right: 8px;
-    font-size: 1.2em;
-    transition: transform 0.3s ease;
-  }
-
-  #userBtn:hover i {
-    transform: scale(1.2);
-  }
+  #userBtn:hover { background:#2a9d8f; color:#fff; }
+  #userBtn i { margin-right:8px; font-size:1.2em; }
 
   /* Menu móvel */
   #menuToggle {
-    display: none;
-    font-size: 1.8em; color:#fff; cursor:pointer;
+    display:none; font-size:1.8em; color:#fff; cursor:pointer;
   }
-
   /* Menu lateral */
   #sideMenu {
-    position: fixed; top:0; left:-250px; height:100%; width:250px;
-    background:#fff; box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-    padding-top:70px; transition: left 0.3s ease; z-index:999;
+    position:fixed; top:0; left:-250px; height:100%; width:250px; background:#fff; box-shadow:2px 0 10px rgba(0,0,0,0.2); padding-top:70px; transition:left 0.3s ease; z-index:999;
   }
   #sideMenu.open { left:0; }
   #sideMenu ul { list-style:none; padding:0; }
@@ -186,7 +95,7 @@
   }
   #sideMenu li:hover { background:#f9f9f9; }
 
-  /* Banner mais sutil */
+  /* Banner */
   #banner {
     margin-top:70px;
     width: 100%; height: 400px;
@@ -198,7 +107,6 @@
     content:""; position:absolute; top:0; left:0; right:0; bottom:0;
     background-color: rgba(0,0,0,0.3);
   }
-
   #content {
     max-width:1200px; margin:40px auto; padding:0 20px;
   }
@@ -213,6 +121,7 @@
     text-align:center; margin-bottom:20px;
     font-size:2em; font-weight:700; color:#222;
   }
+
   /* Filtros */
   .filters {
     display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-bottom:30px;
@@ -220,14 +129,15 @@
   .filters select, .filters input {
     padding:12px 15px; border-radius:8px; border:1px solid #ccc; font-family:'Montserrat',sans-serif; font-size:1em; min-width:200px;
   }
+
   /* Grid produtos */
   #productGrid {
     display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;
   }
+
   /* Cartão produto */
   .product-card {
-    background:#fff; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1);
-    display:flex; flex-direction:column; overflow:hidden; transition:transform 0.2s, box-shadow 0.2s;
+    background:#fff; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1); display:flex; flex-direction:column; overflow:hidden; transition:transform 0.2s, box-shadow 0.2s;
   }
   .product-card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.2); }
   .product-image { width:100%; height:200px; object-fit:cover; }
@@ -239,80 +149,34 @@
   }
   .buy-btn:hover { background:#218c8f; }
 
-  /* Modal geral - login e carrinho */
-  .modal {
-    display:none; position:fixed; top:0; left:0; right:0; bottom:0;
-    background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999; padding:20px;
-  }
-  .modal.show { display:flex; }
-  .modal-content {
-    background:#fff; padding:40px; border-radius:15px; max-width:600px; width:100%; position:relative; box-shadow:0 8px 20px rgba(0,0,0,0.2);
-  }
-  .close-btn { position:absolute; top:15px; right:20px; font-size:1.8em; cursor:pointer; color:#555; }
-
-  /* Rodapé mais limpo */
+  /* Rodapé */
   footer {
     background:#222; color:#fff; text-align:center; padding:20px; margin-top:60px;
   }
   footer a { color:#f4a261; text-decoration:none; }
   footer a:hover { text-decoration:underline; }
 
-  /* Ícone carrinho fixo */
-  #cartButton {
-    position:fixed; bottom:20px; right:20px;
-    background-color:#27ae60; color:#fff; padding:15px 20px; border-radius:50px; cursor:pointer; display:flex; align-items:center; gap:10px; font-size:1.2em; box-shadow:0 4px 8px rgba(0,0,0,0.2); transition:background 0.3s;
+  /* Ícones fixos carrinho e login */
+  #iconContainer {
+    position: fixed; top:20px; right:20px; display:flex; gap:15px; z-index:9999;
   }
-  #cartButton:hover { background:#219150; }
-
-  /* Ícone de menu com várias opções (no canto superior direito) */
-  .menu-icon {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    font-size: 1.8em;
-    color: #fff;
-    cursor: pointer;
-    z-index: 1000;
-    padding: 10px;
-    background: #000;
-    border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  #cartIcon {
+    position:relative; width:50px; height:50px; background:#000; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.3);
   }
-  .menu-icon:hover {
-    background: #333;
-    transform: scale(1.1);
+  #cartIcon i { color:#fff; font-size:1.5em; }
+  #cartCount {
+    position:absolute; top:-8px; right:-8px; background:#e63946; width:20px; height:20px; border-radius:50%; display:flex; justify-content:center; align-items:center; color:#fff; font-size:0.75em; font-weight:bold;
   }
-
-  /* Menu dropdown */
-  .dropdown-menu {
-    position: fixed;
-    top: 60px; /* abaixo do ícone */
-    right: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    display: none; /* oculto inicialmente */
-    flex-direction: column;
-    min-width: 150px;
-    z-index: 999;
+  #userIcon {
+    width:50px; height:50px; background:#000; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.3);
   }
-  .dropdown-menu a {
-    padding: 12px 20px;
-    text-decoration: none;
-    color: #222;
-    border-bottom: 1px solid #eee;
-    transition: background 0.2s;
-  }
-  .dropdown-menu a:hover {
-    background: #f0f0f0;
-  }
+  #userIcon i { color:#fff; font-size:1.5em; }
 </style>
 </head>
 <body>
 
 <!-- Menu móvel -->
-<div id="menuToggle" title="Menu"><i class="fas fa-bars"></i></div>
-
+<div id="menuToggle" style="display:none;"><i class="fas fa-bars"></i></div>
 <!-- Menu lateral -->
 <nav id="sideMenu">
   <ul>
@@ -331,22 +195,24 @@
   </ul>
 </nav>
 
-<!-- Ícones fixos do canto superior direito -->
+<!-- Ícones fixos de carrinho e login -->
 <div id="iconContainer">
-  <!-- Carrinho com contador -->
-  <div id="cartButton" title="Ver Carrinho">
+  <!-- Carrinho -->
+  <div id="cartIcon" title="Ver Carrinho">
     <i class="fas fa-shopping-cart"></i>
     <div id="cartCount">0</div>
   </div>
-  <!-- Login / usuário -->
-  <div class="menu-icon" id="userIcon" title="Entrar / Registrar"><i class="fas fa-user"></i></div>
+  <!-- Login -->
+  <div id="userIcon" title="Entrar / Registrar">
+    <i class="fas fa-user"></i>
+  </div>
 </div>
 
 <!-- Banner -->
 <div id="banner"></div>
 
-<!-- Seções -->
-<div style="margin-top:70px;"></div> <!-- espaçamento acima do conteúdo -->
+<!-- Conteúdo -->
+<div style="margin-top:70px;"></div>
 
 <section id="productsSection">
   <h2 class="section-title">Produtos de Futebol</h2>
@@ -387,44 +253,36 @@
   <p>© 2024 Loja Futebol Top. Todos os direitos reservados.</p>
 </footer>
 
-<!-- Modal login/register -->
-<div class="modal" id="authModal">
-  <div class="modal-content">
-    <div class="close-btn" id="closeAuth"><i class="fas fa-times"></i></div>
+<!-- Modal login -->
+<div class="modal" id="authModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
+  <div class="modal-content" style="background:#fff; padding:40px; border-radius:12px; max-width:600px; width:100%; position:relative;">
+    <div class="close-btn" id="closeAuth" style="position:absolute; top:10px; right:15px; font-size:1.8em; cursor:pointer;">&times;</div>
     <h3 id="authTitle">Entrar na Conta</h3>
     <form id="authForm" onsubmit="return false;">
-      <div style="margin-bottom:15px; position:relative;">
-        <label for="authUser" style="display:none;">Nome de usuário</label>
-        <input type="text" id="authUser" placeholder="Nome de usuário" required />
-        <i class="fas fa-user" style="position:absolute; top:50%; right:15px; transform:translateY(-50%); color:#999;"></i>
-      </div>
-      <div style="margin-bottom:15px; position:relative;">
-        <label for="authPass" style="display:none;">Senha</label>
-        <input type="password" id="authPass" placeholder="Senha" required />
-        <i class="fas fa-lock" style="position:absolute; top:50%; right:15px; transform:translateY(-50%); color:#999;"></i>
-      </div>
-      <button type="submit" id="authActionBtn" style="width:100%; margin-top:10px;">Entrar</button>
+      <input type="text" id="authUser" placeholder="Nome de usuário" required style="width:100%; padding:10px; margin-top:15px; border-radius:8px; border:1px solid #ccc;">
+      <input type="password" id="authPass" placeholder="Senha" required style="width:100%; padding:10px; margin-top:15px; border-radius:8px; border:1px solid #ccc;">
+      <button type="submit" style="width:100%; padding:10px; margin-top:15px; background:#2a9d8f; color:#fff; border:none; border-radius:8px; cursor:pointer;">Entrar</button>
     </form>
     <div id="authMessage"></div>
     <p style="margin-top:15px; text-align:center;">
-      <a href="#" id="switchAuthLink" style="color:#2a9d8f; text-decoration:none; font-weight:600;">Criar uma nova conta</a>
+      <a href="#" id="switchAuthLink" style="color:#2a9d8f; font-weight:600; text-decoration:none;">Criar uma nova conta</a>
     </p>
   </div>
 </div>
 
 <!-- Modal Carrinho -->
-<div class="modal" id="cartModal">
-  <div class="modal-content">
-    <div class="close-btn" id="closeCart"><i class="fas fa-times"></i></div>
+<div class="modal" id="cartModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
+  <div class="modal-content" style="background:#fff; padding:40px; border-radius:12px; max-width:600px; width:100%; max-height:80%; overflow-y:auto; position:relative;">
+    <div id="closeCart" style="position:absolute; top:10px; right:15px; font-size:1.8em; cursor:pointer;">&times;</div>
     <h3 style="margin-bottom:20px;">Carrinho de Compras</h3>
     <div id="cartItems"></div>
-    <button id="finalizeBtn">Finalizar Compra</button>
+    <button id="finalizeBtn" style="width:100%; padding:10px; margin-top:15px; background:#2a9d8f; color:#fff; border:none; border-radius:8px; cursor:pointer;">Finalizar Compra</button>
   </div>
 </div>
 
 <!-- Scripts -->
 <script>
-  // Dados produtos
+  // Dados exemplo de produtos
   const produtos = [
     { id: 1, nome: "Camisola Nike Match", categoria: "camisola", marca: "Nike", preco: 45, imagem: "https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
     { id: 2, nome: "Chuteira Adidas Predator", categoria: "chuteira", marca: "Adidas", preco: 120, imagem: "https://images.unsplash.com/photo-1607785055400-8d36fa4f6a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
@@ -438,10 +296,12 @@
 
   // Carrinho
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+  let usuarios = JSON.parse(localStorage.getItem('usuarios')) || {};
+  let logado = localStorage.getItem('user') || null;
 
   // Elementos principais
   const btnAuth = document.getElementById('userIcon');
-  const cartBtn = document.getElementById('cartButton');
+  const cartBtn = document.getElementById('cartIcon');
   const authModal = document.getElementById('authModal');
   const closeAuth = document.getElementById('closeAuth');
   const authTitle = document.getElementById('authTitle');
@@ -449,7 +309,7 @@
   const authPass = document.getElementById('authPass');
   const authForm = document.getElementById('authForm');
   const authMessage = document.getElementById('authMessage');
-  const authActionBtn = document.getElementById('authActionBtn');
+  const authActionBtn = document.querySelector('#authForm button');
   const switchAuthLink = document.getElementById('switchAuthLink');
 
   const cartModal = document.getElementById('cartModal');
@@ -462,96 +322,78 @@
   const brandFilter = document.getElementById('brandFilter');
   const searchInput = document.getElementById('searchInput');
 
-  const menuToggle = document.getElementById('menuToggle');
-  const sideMenu = document.getElementById('sideMenu');
-
-  const menuDropdown = document.querySelector('.menu-icon');
-  const dropdownMenu = document.createElement('div');
-  dropdownMenu.className = 'dropdown-menu';
-
   // Atualiza o contador do carrinho
   function atualizarContador() {
     document.getElementById('cartCount').innerText = carrinho.length;
   }
 
   // Função para abrir modal de login
-  let modoAuth = 'login';
+  let modo = { tipo: 'login' };
+  document.getElementById('userIcon').onclick = () => { abrirModalAuth('login'); };
+  // Abrir modal carrinho
+  document.getElementById('cartIcon').onclick = () => {
+    mostrarCarrinho();
+    document.getElementById('cartModal').style.display='flex';
+  };
+  document.getElementById('closeAuth').onclick = () => { document.getElementById('authModal').style.display='none'; };
+  document.getElementById('closeCart').onclick = () => { document.getElementById('cartModal').style.display='none'; };
 
-  function abrirModalAuth(modo) {
-    modoAuth = modo;
-    document.getElementById('authTitle').innerText = modo === 'login' ? 'Entrar na Conta' : 'Criar Conta';
+  // Abrir modal de autenticação
+  function abrirModalAuth(tipo) {
+    modo.tipo = tipo;
+    document.getElementById('authTitle').innerText = tipo === 'login' ? 'Entrar na Conta' : 'Criar Conta';
     document.getElementById('authUser').value = '';
     document.getElementById('authPass').value = '';
-    document.getElementById('authMessage').innerHTML = '';
-    document.getElementById('switchAuthLink').innerText = modo === 'login' ? 'Criar uma nova conta' : 'Já tenho uma conta';
-    document.getElementById('authModal').classList.add('show');
+    document.getElementById('authMessage').innerText = '';
+    document.getElementById('authModal').style.display='flex';
   }
 
-  // Fechar modal
-  document.getElementById('closeAuth').onclick = () => {
-    document.getElementById('authModal').classList.remove('show');
-  };
-
-  // Trocar modo
+  // Trocar entre login e cadastro
   document.getElementById('switchAuthLink').onclick = (e) => {
     e.preventDefault();
-    abrirModalAuth(modoAuth === 'login' ? 'register' : 'login');
+    modo.tipo = modo.tipo === 'login' ? 'register' : 'login';
+    abrirModalAuth(modo.tipo);
   };
 
-  // Validação senha forte
-  function validarSenha(senha) {
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{6,}$/;
-    return regex.test(senha);
-  }
-
-  // Submit login ou register
+  // Processo de login ou cadastro
   document.getElementById('authForm').onsubmit = () => {
     const usuario = document.getElementById('authUser').value.trim();
     const senha = document.getElementById('authPass').value.trim();
-
     if (!usuario || !senha) {
-      document.getElementById('authMessage').innerHTML = 'Preencha todos os campos.';
+      document.getElementById('authMessage').innerText='Preencha todos os campos.';
       return false;
     }
-
-    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || {};
-
-    if (modoAuth === 'login') {
-      // Login
-      if (usuarios[usuario] && usuarios[usuario] === senha) {
+    if (modo.tipo === 'login') {
+      if (usuarios[usuario] && usuarios[usuario]===senha) {
         localStorage.setItem('user', usuario);
-        alert(`Bem-vindo, ${usuario}!`);
-        document.getElementById('authModal').classList.remove('show');
-        verificarLogin();
+        logado = usuario;
+        atualizarLogin();
+        document.getElementById('authModal').style.display='none';
       } else {
-        document.getElementById('authMessage').innerHTML = 'Credenciais inválidas ou usuário não existe.';
+        document.getElementById('authMessage').innerText='Credenciais inválidas.';
       }
     } else {
       // Registro
       if (usuarios[usuario]) {
-        document.getElementById('authMessage').innerHTML = 'Nome de usuário já existe.';
+        document.getElementById('authMessage').innerText='Usuário já existe.';
       } else {
-        if (!validarSenha(senha)) {
-          document.getElementById('authMessage').innerHTML = 'Senha forte: mínimo 6 caracteres, incluindo letras, números e caracteres especiais.';
-          return false;
-        }
         usuarios[usuario] = senha;
         localStorage.setItem('usuarios', JSON.stringify(usuarios));
-        alert('Conta criada! Agora faça login.');
+        alert('Conta criada! Faça login.');
         abrirModalAuth('login');
       }
     }
     return false;
   };
 
-  // Verifica login
-  function verificarLogin() {
-    const usuario = localStorage.getItem('user');
-    if (usuario) {
-      document.getElementById('userIcon').innerHTML = `${usuario} <span style="margin-left:8px; font-size:0.9em; color:#555; cursor:pointer;">Sair</span>`;
+  // Atualizar interface de login
+  function atualizarLogin() {
+    if (logado) {
+      document.getElementById('userIcon').innerHTML = `<span style="color:#fff;">${logado} (Sair)</span>`;
       document.getElementById('userIcon').onclick = () => {
         localStorage.removeItem('user');
-        verificarLogin();
+        logado = null;
+        atualizarLogin();
       };
     } else {
       document.getElementById('userIcon').innerHTML = `<i class="fas fa-user"></i>`;
@@ -559,125 +401,85 @@
     }
   }
 
-  // Abrir carrinho
+  // Mostrar carrinho
   function mostrarCarrinho() {
-    document.getElementById('cartItems').innerHTML = '';
-    if (carrinho.length === 0) {
-      document.getElementById('cartItems').innerHTML = '<p style="text-align:center; padding:40px; font-size:1.2em;">Carrinho vazio.</p>';
+    const container = document.getElementById('cartItems');
+    container.innerHTML='';
+    if (carrinho.length===0) {
+      container.innerHTML='<p style="text-align:center; padding:20px;">Carrinho vazio.</p>';
       document.getElementById('finalizeBtn').style.display='none';
       return;
     }
-    let total = 0;
-    carrinho.forEach((item, index) => {
-      total += item.preco;
+    let total=0;
+    carrinho.forEach((item,i) => {
+      total+=item.preco;
       const div = document.createElement('div');
-      div.className = 'cart-item';
-      div.innerHTML = `
-        <img src="${item.imagem}" />
-        <div class="cart-details">
-          <h4>${item.nome}</h4>
-          <p>€${item.preco.toFixed(2)}</p>
+      div.style.display='flex'; div.style.alignItems='center'; div.style.justifyContent='space-between'; div.style.padding='10px 0'; div.style.borderBottom='1px solid #ccc';
+      div.innerHTML= `
+        <div style="display:flex; align-items:center; gap:10px;">
+          <img src="${item.imagem}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;" />
+          <div>
+            <div style="font-weight:600;">${item.nome}</div>
+            <div style="color:#e63946;">€${item.preco.toFixed(2)}</div>
+          </div>
         </div>
-        <button class="remove-btn" onclick="removerItem(${index})">&times;</button>
+        <button style="background:none; border:none; color:#e63946; font-size:1.2em; cursor:pointer;" onclick="removerItem(${i})">&times;</button>
       `;
-      document.getElementById('cartItems').appendChild(div);
+      container.appendChild(div);
     });
     document.getElementById('finalizeBtn').style.display='block';
   }
 
-  function removerItem(index) {
-    carrinho.splice(index,1);
-    salvarCarrinho();
+  function removerItem(i) {
+    carrinho.splice(i,1);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
     mostrarCarrinho();
     atualizarContador();
   }
 
   document.getElementById('finalizeBtn').onclick = () => {
-    if (carrinho.length === 0) {
-      alert('Seu carrinho está vazio');
-      return;
-    }
     alert('Compra finalizada! Obrigado.');
     carrinho = [];
-    salvarCarrinho();
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
     mostrarCarrinho();
     atualizarContador();
   };
 
-  // Abrir modal carrinho
-  document.getElementById('cartButton').onclick = () => {
-    mostrarCarrinho();
-    document.getElementById('cartModal').classList.add('show');
-  };
-  document.getElementById('closeCart').onclick = () => {
-    document.getElementById('cartModal').classList.remove('show');
-  };
+  // Renderizar produtos e filtros
+  const produtos = [
+    { id: 1, nome: "Camisola Nike Match", categoria: "camisola", marca: "Nike", preco: 45, imagem: "https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id: 2, nome: "Chuteira Adidas Predator", categoria: "chuteira", marca: "Adidas", preco: 120, imagem: "https://images.unsplash.com/photo-1607785055400-8d36fa4f6a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id: 3, nome: "Fato Puma Treino", categoria: "fato", marca: "Puma", preco: 60, imagem: "https://images.unsplash.com/photo-1618706357483-7f8d3a6f0f05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id: 4, nome: "Camisola Adidas Home", categoria: "camisola", marca: "Adidas", preco: 50, imagem: "https://images.unsplash.com/photo-1628076572753-8b3e2d682b75?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id: 5, nome: "Chuteira Nike Phantom", categoria: "chuteira", marca: "Nike", preco: 130, imagem: "https://images.unsplash.com/photo-1628390209642-2a6b0f6f2e1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id: 6, nome: "Fato Puma Treino", categoria: "fato", marca: "Puma", preco: 55, imagem: "https://images.unsplash.com/photo-1626541234567-1234567890ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id: 7, nome: "Camisola Nike Away", categoria: "camisola", marca: "Nike", preco: 48, imagem: "https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+    { id: 8, nome: "Chuteira Adidas Speed", categoria: "chuteira", marca: "Adidas", preco: 140, imagem: "https://images.unsplash.com/photo-1607785055400-8d36fa4f6a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
+  ];
 
-  // Filtros e busca
-  document.getElementById('categoryFilter').onchange = renderizarProdutos;
-  document.getElementById('brandFilter').onchange = renderizarProdutos;
-  document.getElementById('searchInput').oninput = renderizarProdutos;
-
-  // Menu lateral
-  document.getElementById('menuToggle').onclick = () => {
-    document.getElementById('sideMenu').classList.toggle('open');
-  };
-
-  // Menu dropdown do ícone de menu
-  const menuIcon = document.querySelector('.menu-icon');
-  let menuDropdownVisible = false;
-  menuIcon.onclick = () => {
-    if (!menuDropdownVisible) {
-      if (!document.querySelector('.dropdown-menu')) {
-        document.body.appendChild(dropdownMenu);
-      }
-      dropdownMenu.innerHTML = `
-        <a href="#">Opção 1</a>
-        <a href="#">Opção 2</a>
-        <a href="#">Opção 3</a>
-        <a href="#">Opção 4</a>
-      `;
-      dropdownMenu.style.display = 'flex';
-      dropdownMenu.style.top = (menuIcon.offsetTop + menuIcon.offsetHeight + 'px');
-      dropdownMenu.style.right = (window.innerWidth - menuIcon.offsetLeft - menuIcon.offsetWidth + 'px');
-      menuDropdownVisible = true;
-    } else {
-      dropdownMenu.style.display = 'none';
-      menuDropdownVisible = false;
-    }
-  };
-  document.addEventListener('click', (e) => {
-    if (dropdownMenu && !dropdownMenu.contains(e.target) && e.target !== menuIcon) {
-      dropdownMenu.style.display = 'none';
-      menuDropdownVisible = false;
-    }
-  });
-
-  // Renderizar produtos
   function renderizarProdutos() {
-    const categoriaFiltro = document.getElementById('categoryFilter').value;
-    const marcaFiltro = document.getElementById('brandFilter').value;
+    const filtroCategoria = document.getElementById('categoryFilter').value;
+    const filtroMarca = document.getElementById('brandFilter').value;
     const termoBusca = document.getElementById('searchInput').value.toLowerCase();
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML='';
 
     const filtrados = produtos.filter(p => 
-      (categoriaFiltro === 'all' || p.categoria === categoriaFiltro) &&
-      (marcaFiltro === 'all' || p.marca === marcaFiltro) &&
+      (filtroCategoria==='all' || p.categoria===filtroCategoria) &&
+      (filtroMarca==='all' || p.marca===filtroMarca) &&
       p.nome.toLowerCase().includes(termoBusca)
     );
 
-    const grid = document.getElementById('productGrid');
-    grid.innerHTML = '';
-
-    if (filtrados.length === 0) {
-      grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px; font-size:1.2em;">Nenhum produto encontrado.</p>';
+    if(filtrados.length===0){
+      grid.innerHTML='<p style="grid-column:1/-1; text-align:center; padding:40px;">Nenhum produto encontrado.</p>';
       return;
     }
 
     filtrados.forEach(p => {
       const card = document.createElement('div');
-      card.className = 'product-card';
-      card.innerHTML = `
-        <img src="${p.imagem}" alt="${p.nome}" class="product-image" />
+      card.className='product-card';
+      card.innerHTML= `
+        <img src="${p.imagem}" class="product-image" />
         <div class="product-info">
           <div>
             <div class="product-name">${p.nome}</div>
@@ -686,29 +488,88 @@
           <button class="buy-btn" onclick="adicionarAoCarrinho(${p.id})">Adicionar ao Carrinho</button>
         </div>
       `;
-      document.getElementById('productGrid').appendChild(card);
+      grid.appendChild(card);
     });
   }
 
   function adicionarAoCarrinho(id) {
-    const produto = produtos.find(p => p.id === id);
-    if (produto) {
+    const produto = produtos.find(p=>p.id===id);
+    if(produto){
       carrinho.push(produto);
-      salvarCarrinho();
+      localStorage.setItem('carrinho', JSON.stringify(carrinho));
       alert(`"${produto.nome}" adicionado ao carrinho`);
       atualizarContador();
     }
   }
 
-  function salvarCarrinho() {
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+  // Atualiza o contador do carrinho
+  function atualizarContador() {
+    document.getElementById('cartCount').innerText = carrinho.length;
   }
 
-  // Inicializações
-  verificarLogin();
+  // Carregar a página
   renderizarProdutos();
   atualizarContador();
+  atualizarLogin();
 
+  // Funções adicionais
+  function removerItem(i){
+    carrinho.splice(i,1);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    mostrarCarrinho();
+    atualizarContador();
+  }
+
+  document.getElementById('finalizeBtn').onclick = () => {
+    alert('Compra finalizada! Obrigado.');
+    carrinho = [];
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    mostrarCarrinho();
+    atualizarContador();
+  };
+
+  // Exibir carrinho
+  function mostrarCarrinho() {
+    const container = document.getElementById('cartItems');
+    container.innerHTML='';
+    if(carrinho.length===0){
+      container.innerHTML='<p style="text-align:center; padding:20px;">Carrinho vazio.</p>';
+      document.getElementById('finalizeBtn').style.display='none';
+      return;
+    }
+    carrinho.forEach((item,i) => {
+      const div = document.createElement('div');
+      div.style.display='flex'; div.style.alignItems='center'; div.style.justifyContent='space-between'; div.style.padding='10px 0'; div.style.borderBottom='1px solid #ccc';
+      div.innerHTML= `
+        <div style="display:flex; align-items:center; gap:10px;">
+          <img src="${item.imagem}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;" />
+          <div>
+            <div style="font-weight:600;">${item.nome}</div>
+            <div style="color:#e63946;">€${item.preco.toFixed(2)}</div>
+          </div>
+        </div>
+        <button style="background:none; border:none; color:#e63946; font-size:1.2em; cursor:pointer;" onclick="removerItem(${i})">&times;</button>
+      `;
+      container.appendChild(div);
+    });
+    document.getElementById('finalizeBtn').style.display='block';
+  }
+
+  // Atualizar login
+  function atualizarLogin() {
+    if(logado){
+      document.getElementById('userIcon').innerHTML=`<span style="color:#fff;">${logado} (Sair)</span>`;
+      document.getElementById('userIcon').onclick=()=> {
+        localStorage.removeItem('user');
+        logado=null;
+        atualizarLogin();
+      };
+    }else{
+      document.getElementById('userIcon').innerHTML=`<i class="fas fa-user"></i>`;
+      document.getElementById('userIcon').onclick=()=> { abrirModalAuth('login'); };
+    }
+  }
 </script>
+
 </body>
 </html>
