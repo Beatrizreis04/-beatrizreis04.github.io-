@@ -21,30 +21,33 @@
     line-height: 1.6;
   }
 
+  /* Cabeçalho com visual mais limpo */
   header {
     position: fixed;
     top: 0; left: 0; right: 0;
-    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    background: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
-    z-index: 1000;
+    padding: 15px 30px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
   }
   .logo {
     font-size: 1.8em;
-    color: #fff;
+    color: #2a9d8f;
     font-weight: 700;
     cursor: pointer;
   }
   #userBtn {
-    background:none; border:none; color:#fff; font-size:1em; cursor:pointer;
+    background:#2a9d8f; border:none; padding:10px 20px; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; font-size:1em; transition:background 0.3s;
   }
-  /* Menu mobile toggle */
+  #userBtn:hover { background:#218c8f; }
+
+  /* Menu móvel */
   #menuToggle {
     display: none;
-    font-size: 1.8em; color:#fff; cursor:pointer;
+    font-size: 1.8em; color:#2a9d8f; cursor:pointer;
   }
 
   /* Menu lateral (mobile) */
@@ -56,11 +59,11 @@
   #sideMenu.open { left:0; }
   #sideMenu ul { list-style:none; }
   #sideMenu li {
-    padding:15px 20px; border-bottom:1px solid #eee; cursor:pointer; font-weight:500;
+    padding:15px 20px; border-bottom:1px solid #eee; cursor:pointer; font-weight:500; font-size:1.1em;
   }
   #sideMenu li:hover { background:#f9f9f9; }
 
-  /* Banner */
+  /* Banner com imagem mais moderna */
   #banner {
     margin-top:70px;
     width: 100%; height: 400px;
@@ -70,7 +73,7 @@
   }
   #banner::after {
     content:""; position:absolute; top:0; left:0; right:0; bottom:0;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.3);
   }
 
   #content {
@@ -162,6 +165,18 @@
   }
   #cartButton:hover { background:#219150; }
 
+  /* Melhorias visuais na modal de login */
+  #authModal .modal-content {
+    padding:30px 40px;
+  }
+  #authModal h3 {
+    font-size:2em;
+    margin-bottom:20px;
+  }
+  #authMessage {
+    min-height: 1em;
+    margin-bottom: 10px;
+  }
 </style>
 </head>
 <body>
@@ -258,9 +273,7 @@
       <input type="password" id="authPass" placeholder="Senha" required />
       <button type="submit" id="authActionBtn">Entrar</button>
     </form>
-    <p style="margin-top:15px; text-align:center;">
-      <span id="authMessage" style="color:red; font-size:0.9em;"></span>
-    </p>
+    <div id="authMessage"></div>
     <p style="margin-top:15px; text-align:center;">
       <a href="#" id="switchAuthLink">Registrar-se</a>
     </p>
@@ -345,33 +358,35 @@
     authTitle.innerText = modo === 'login' ? 'Login' : 'Registrar-se';
     authUser.value = '';
     authPass.value = '';
-    authMessage.innerText = '';
-
-    // Trocar o texto do link de troca de modo
+    authMessage.innerHTML = '';
     switchAuthLink.innerText = modo === 'login' ? 'Registrar-se' : 'Entrar';
-
     authModal.classList.add('show');
   }
 
   // Fechar modal
   document.getElementById('closeAuth').onclick = () => {
     authModal.classList.remove('show');
-    authMessage.innerText = '';
   };
 
-  // Alternar modo ao clicar no link
+  // Alternar modo
   document.getElementById('switchAuthLink').onclick = (e) => {
     e.preventDefault();
     abrirModalAuth(modoAuth === 'login' ? 'register' : 'login');
   };
 
-  // Evento de submit ao clicar em "Entrar" ou "Registrar-se"
-  authForm.onsubmit = () => {
+  // Validação avançada de senha
+  function validarSenha(senha) {
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{6,}$/;
+    return regex.test(senha);
+  }
+
+  // Evento de login ou registro
+authForm.onsubmit = () => {
     const usuario = authUser.value.trim();
     const senha = authPass.value.trim();
 
     if (!usuario || !senha) {
-      authMessage.innerText = 'Preencha todos os campos.';
+      authMessage.innerHTML = 'Por favor, preencha todos os campos.';
       return false;
     }
 
@@ -385,38 +400,38 @@
         authModal.classList.remove('show');
         verificarLogin();
       } else {
-        authMessage.innerText = 'Credenciais inválidas.';
+        authMessage.innerHTML = 'Credenciais inválidas ou usuário não existe.';
       }
     } else {
       // Registro
       if (usuarios[usuario]) {
-        authMessage.innerText = 'Nome de usuário já existe.';
-      } else {
-        if (senha.length < 6) {
-          authMessage.innerText = 'A senha deve ter pelo menos 6 caracteres.';
-          return false;
-        }
-        usuarios[usuario] = senha;
-        localStorage.setItem('usuarios', JSON.stringify(usuarios));
-        alert('Conta criada! Agora faça login.');
-        abrirModalAuth('login');
+        authMessage.innerHTML = 'Nome de usuário já existe.';
+        return false;
       }
+      if (!validarSenha(senha)) {
+        authMessage.innerHTML = 'A senha deve ter pelo menos 6 caracteres, incluindo letras, números e caracteres especiais.';
+        return false;
+      }
+      usuarios[usuario] = senha;
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+      alert('Conta criada! Agora faça login.');
+      abrirModalAuth('login');
     }
-    return false; // Impede o envio padrão
+    return false;
   };
 
-  // Atualizar o botão de login/conectar com o usuário
+  // Atualizar botão de login
 function verificarLogin() {
   const usuario = localStorage.getItem('user');
   if (usuario) {
-    userBtn.innerHTML = `Olá, ${usuario} | <span style="cursor:pointer; text-decoration:underline;">Sair</span>`;
-    userBtn.querySelector('span').onclick = () => {
+    btnAuth.innerHTML = `Olá, ${usuario} | <span style="cursor:pointer; text-decoration:underline;">Sair</span>`;
+    btnAuth.querySelector('span').onclick = () => {
       localStorage.removeItem('user');
       verificarLogin();
     };
   } else {
-    userBtn.innerHTML = 'Login / Registrar';
-    userBtn.onclick = () => abrirModalAuth('login');
+    btnAuth.innerHTML = 'Login / Registrar';
+    btnAuth.onclick = () => abrirModalAuth('login');
   }
 }
 
@@ -428,7 +443,9 @@ function mostrarCarrinho() {
     document.getElementById('finalizeBtn').style.display='none';
     return;
   }
+  let total = 0;
   carrinho.forEach((item, index) => {
+    total += item.preco;
     const div = document.createElement('div');
     div.className = 'cart-item';
     div.innerHTML = `
@@ -444,7 +461,7 @@ function mostrarCarrinho() {
   document.getElementById('finalizeBtn').style.display='block';
 }
 
-// Remover item do carrinho
+// Remover item
 function removerItem(index) {
   carrinho.splice(index,1);
   salvarCarrinho();
@@ -463,30 +480,22 @@ document.getElementById('finalizeBtn').onclick = () => {
   mostrarCarrinho();
 };
 
-// Botão abrir carrinho
-document.getElementById('cartButton').onclick = () => {
-  mostrarCarrinho();
-  document.getElementById('cartModal').classList.add('show');
-};
-
-// Fechar modal carrinho
-document.getElementById('closeCart').onclick = () => {
-  document.getElementById('cartModal').classList.remove('show');
-};
-
-// Abrir carrinho ao clicar no botão
+// Abrir carrinho
 function abrirCarrinho() {
   mostrarCarrinho();
   document.getElementById('cartModal').classList.add('show');
 }
 document.getElementById('cartButton').onclick = abrirCarrinho;
+document.getElementById('closeCart').onclick = () => {
+  document.getElementById('cartModal').classList.remove('show');
+};
 
-// Filtros e busca
+// Filtros e pesquisa
 categoryFilter.onchange = renderizarProdutos;
 brandFilter.onchange = renderizarProdutos;
 searchInput.oninput = renderizarProdutos;
 
-// Ícone menu móvel
+// Menu móvel
 document.getElementById('menuToggle').onclick = () => {
   sideMenu.classList.toggle('open');
 };
@@ -527,7 +536,7 @@ function renderizarProdutos() {
   });
 }
 
-// Adicionar produto ao carrinho
+// Adicionar ao carrinho
 function adicionarAoCarrinho(id) {
   const produto = produtos.find(p => p.id === id);
   if (produto) {
@@ -542,31 +551,7 @@ function salvarCarrinho() {
   localStorage.setItem('carrinho', JSON.stringify(carrinho));
 }
 
-// Abrir carrinho
-function abrirCarrinho() {
-  mostrarCarrinho();
-  document.getElementById('cartModal').classList.add('show');
-}
-
-// Evento do botão carrinho
-document.getElementById('cartButton').onclick = abrirCarrinho;
-
-// Fechar modal carrinho
-document.getElementById('closeCart').onclick = () => {
-  document.getElementById('cartModal').classList.remove('show');
-};
-
-// Filtros e busca
-categoryFilter.onchange = renderizarProdutos;
-brandFilter.onchange = renderizarProdutos;
-searchInput.oninput = renderizarProdutos;
-
-// Menu móvel
-document.getElementById('menuToggle').onclick = () => {
-  sideMenu.classList.toggle('open');
-};
-
-// Inicialização
+// Init
 verificarLogin();
 renderizarProdutos();
 </script>
