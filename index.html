@@ -41,27 +41,34 @@
     cursor: pointer;
   }
 
-  /* Botão login pequeno no canto superior direito */
+  /* Botão de login estilo cartão no canto superior direito */
   #userBtn {
-    background: transparent;
-    border: none;
+    background: #fff;
+    border: 2px solid #2a9d8f;
+    border-radius: 8px;
     cursor: pointer;
-    position: relative;
-    font-size: 1em;
     padding: 8px 12px;
-    border-radius: 50px;
     display: flex;
     align-items: center;
-    transition: background 0.3s, transform 0.2s;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+    transition: all 0.3s ease;
   }
+
   #userBtn:hover {
-    background: #eee;
-    transform: scale(1.05);
+    background-color: #2a9d8f;
+    color: #fff;
   }
+
   #userBtn i {
     margin-right: 8px;
     font-size: 1.2em;
-    color: #2a9d8f;
+    transition: transform 0.3s ease;
+  }
+
+  #userBtn:hover i {
+    transform: scale(1.2);
   }
 
   /* Menu móvel */
@@ -185,12 +192,11 @@
     position: absolute;
     top: 15px;
     right: 20px;
-    cursor: pointer;
-    font-size: 1.5em;
-    color: #999;
-    transition: color 0.2s;
+    cursor:pointer;
+    font-size:1.5em;
+    color:#999;
   }
-  #closeAuth:hover { color: #333; }
+  #closeAuth:hover { color:#333; }
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -226,10 +232,7 @@
   }
   #cartButton:hover { background:#219150; }
 
-  /* Animações sutis */
-  #userBtn span {
-    font-size: 0.9em;
-  }
+  /* Ícone usuário estilizado no canto superior direito */
 </style>
 </head>
 <body>
@@ -261,61 +264,55 @@
 <!-- Botão Carrinho -->
 <div id="cartButton"><i class="fas fa-shopping-cart"></i> Carrinho</div>
 
-<!-- Conteúdo principal -->
-<div id="content">
+<!-- Cabeçalho -->
+<header>
+  <div class="logo" id="logo">Loja Futebol Top</div>
+  <!-- Botão de login perfeito no canto superior direito -->
+  <button id="userBtn" title="Entrar / Registrar"><i class="fas fa-user"></i></button>
+</header>
 
-  <!-- Cabeçalho -->
-  <header>
-    <div class="logo" id="logo">Loja Futebol Top</div>
-    <!-- Botão de login pequeno no canto superior direito -->
-    <button id="userBtn" title="Entrar / Registrar"><i class="fas fa-user"></i></button>
-  </header>
+<!-- Espaço para evitar sobreposição -->
+<div style="margin-top:80px;"></div>
 
-  <!-- Espaço para evitar sobreposição -->
-  <div style="margin-top:80px;"></div>
+<!-- Seções -->
+<section id="productsSection">
+  <h2 class="section-title">Produtos de Futebol</h2>
+  <div class="filters">
+    <select id="categoryFilter" aria-label="Filtrar por categoria">
+      <option value="all">Todas as categorias</option>
+      <option value="camisola">Camisolas</option>
+      <option value="chuteira">Chuteiras</option>
+      <option value="fato">Fatos de treino</option>
+    </select>
+    <select id="brandFilter" aria-label="Filtrar por marca">
+      <option value="all">Todas as marcas</option>
+      <option value="Nike">Nike</option>
+      <option value="Adidas">Adidas</option>
+      <option value="Puma">Puma</option>
+    </select>
+    <input type="text" id="searchInput" placeholder="Pesquisar..." aria-label="Pesquisar produtos" />
+  </div>
+  <div id="productGrid"></div>
+</section>
 
-  <!-- Seção Produtos -->
-  <section id="productsSection">
-    <h2 class="section-title">Produtos de Futebol</h2>
-    <div class="filters">
-      <select id="categoryFilter" aria-label="Filtrar por categoria">
-        <option value="all">Todas as categorias</option>
-        <option value="camisola">Camisolas</option>
-        <option value="chuteira">Chuteiras</option>
-        <option value="fato">Fatos de treino</option>
-      </select>
-      <select id="brandFilter" aria-label="Filtrar por marca">
-        <option value="all">Todas as marcas</option>
-        <option value="Nike">Nike</option>
-        <option value="Adidas">Adidas</option>
-        <option value="Puma">Puma</option>
-      </select>
-      <input type="text" id="searchInput" placeholder="Pesquisar..." aria-label="Pesquisar produtos" />
-    </div>
-    <div id="productGrid"></div>
-  </section>
+<section id="about" style="background:#e0e0e0; padding:40px 20px;">
+  <h2 class="section-title">Sobre Nós</h2>
+  <p style="max-width:800px; margin:auto; font-size:1.1em; text-align:center;">
+    Somos a loja líder em equipamentos de futebol, oferecendo camisolas, chuteiras, fatos de treino e acessórios de alta qualidade. Nosso objetivo é ajudar você a alcançar o seu melhor em campo!
+  </p>
+</section>
 
-  <!-- Sobre Nós -->
-  <section id="about" style="background:#e0e0e0; padding:40px 20px;">
-    <h2 class="section-title">Sobre Nós</h2>
-    <p style="max-width:800px; margin:auto; font-size:1.1em; text-align:center;">
-      Somos a loja líder em equipamentos de futebol, oferecendo camisolas, chuteiras, fatos de treino e acessórios de alta qualidade. Nosso objetivo é ajudar você a alcançar o seu melhor em campo!
-    </p>
-  </section>
+<section id="contact" style="padding:40px 20px;">
+  <h2 class="section-title">Contato</h2>
+  <p style="max-width:800px; margin:auto; font-size:1.1em; text-align:center;">
+    Email: suporte@lojafutebol.com | Telefone: +351 912 345 678 | Endereço: Rua do Esporte, Lisboa
+  </p>
+</section>
 
-  <!-- Contato -->
-  <section id="contact" style="padding:40px 20px;">
-    <h2 class="section-title">Contato</h2>
-    <p style="max-width:800px; margin:auto; font-size:1.1em; text-align:center;">
-      Email: suporte@lojafutebol.com | Telefone: +351 912 345 678 | Endereço: Rua do Esporte, Lisboa
-    </p>
-  </section>
-
-  <!-- Rodapé -->
-  <footer>
-    <p>© 2024 Loja Futebol Top. Todos os direitos reservados.</p>
-  </footer>
-</div>
+<!-- Rodapé -->
+<footer>
+  <p>© 2024 Loja Futebol Top. Todos os direitos reservados.</p>
+</footer>
 
 <!-- Modal Login/Register -->
 <div class="modal" id="authModal">
@@ -399,11 +396,12 @@
   // Estado
   let modoAuth = 'login';
 
-  // Funções de controle de autenticação
+  // Verifica login
   function verificarLogin() {
     const usuario = localStorage.getItem('user');
     if (usuario) {
-      btnAuth.innerHTML = `<i class="fas fa-user"></i> ${usuario} <span style="margin-left:8px; font-size:0.9em; color:#555; cursor:pointer;">Sair</span>`;
+      btnAuth.innerHTML = `
+        <i class="fas fa-user"></i> ${usuario} <span style="margin-left:8px; font-size:0.9em; color:#555; cursor:pointer;">Sair</span>`;
       btnAuth.onclick = () => {
         localStorage.removeItem('user');
         verificarLogin();
@@ -436,12 +434,13 @@
     abrirModalAuth(modoAuth === 'login' ? 'register' : 'login');
   };
 
-  // Validação de senha mais forte
+  // Validação senha forte
   function validarSenha(senha) {
     const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{6,}$/;
     return regex.test(senha);
   }
 
+  // Submit login ou register
   authForm.onsubmit = () => {
     const usuario = authUser.value.trim();
     const senha = authPass.value.trim();
@@ -469,7 +468,7 @@
         authMessage.innerHTML = 'Nome de usuário já existe.';
       } else {
         if (!validarSenha(senha)) {
-          authMessage.innerHTML = 'Senha forte: pelo menos 6 caracteres, incluindo letras, números e caracteres especiais.';
+          authMessage.innerHTML = 'Senha forte: mínimo 6 caracteres, incluindo letras, números e caracteres especiais.';
           return false;
         }
         usuarios[usuario] = senha;
@@ -481,7 +480,7 @@
     return false;
   };
 
-  // Atualizar o botão de login
+  // Atualiza login no canto superior direito
   verificarLogin();
 
   // Carrinho
@@ -547,7 +546,7 @@
   };
 
   // Renderizar produtos
- function renderizarProdutos() {
+  function renderizarProdutos() {
     const categoriaFiltro = document.getElementById('categoryFilter').value;
     const marcaFiltro = document.getElementById('brandFilter').value;
     const termoBusca = document.getElementById('searchInput').value.toLowerCase();
@@ -596,7 +595,7 @@
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
   }
 
-  // Iniciar
+  // Início
   verificarLogin();
   renderizarProdutos();
 
