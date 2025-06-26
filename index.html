@@ -21,7 +21,7 @@
     line-height: 1.6;
   }
 
-  /* Cabeçalho com visual mais limpo */
+  /* Cabeçalho profissional */
   header {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -29,20 +29,40 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
+    padding: 10px 20px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    z-index: 1000;
+    z-index: 999;
   }
+
   .logo {
     font-size: 1.8em;
     color: #2a9d8f;
     font-weight: 700;
     cursor: pointer;
   }
+
+  /* Botão login estilizado pequeno */
   #userBtn {
-    background:#2a9d8f; border:none; padding:10px 20px; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; font-size:1em; transition:background 0.3s;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    font-size: 1em;
+    padding: 8px 12px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s, transform 0.2s;
   }
-  #userBtn:hover { background:#218c8f; }
+  #userBtn:hover {
+    background: #eee;
+    transform: scale(1.05);
+  }
+  #userBtn i {
+    margin-right: 8px;
+    font-size: 1.2em;
+    color: #2a9d8f;
+  }
 
   /* Menu móvel */
   #menuToggle {
@@ -50,20 +70,20 @@
     font-size: 1.8em; color:#2a9d8f; cursor:pointer;
   }
 
-  /* Menu lateral (mobile) */
+  /* Menu lateral */
   #sideMenu {
     position: fixed; top:0; left:-250px; height:100%; width:250px;
     background:#fff; box-shadow: 2px 0 10px rgba(0,0,0,0.2);
     padding-top:70px; transition: left 0.3s ease; z-index:999;
   }
   #sideMenu.open { left:0; }
-  #sideMenu ul { list-style:none; }
+  #sideMenu ul { list-style:none; padding:0; }
   #sideMenu li {
     padding:15px 20px; border-bottom:1px solid #eee; cursor:pointer; font-weight:500; font-size:1.1em;
   }
   #sideMenu li:hover { background:#f9f9f9; }
 
-  /* Banner com imagem mais moderna */
+  /* Banner mais sutil */
   #banner {
     margin-top:70px;
     width: 100%; height: 400px;
@@ -116,7 +136,7 @@
   }
   .buy-btn:hover { background:#218c8f; }
 
-  /* Modal geral */
+  /* Modal geral - login e carrinho */
   .modal {
     display:none; position:fixed; top:0; left:0; right:0; bottom:0;
     background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999; padding:20px;
@@ -134,8 +154,11 @@
     width:100%; padding:12px; border:none; border-radius:8px; background:#2a9d8f; color:#fff; font-weight:600; font-size:1.2em; cursor:pointer; transition:background 0.3s;
   }
   button:hover { background:#218c8f; }
+  #authMessage {
+    min-height:1em; font-size:0.9em; color:#d33; margin-bottom:10px; text-align:center;
+  }
 
-  /* Carrinho */
+  /* Carrinho estilo mais limpo */
   #cartItems { max-height:300px; overflow-y:auto; margin-top:20px; }
   .cart-item {
     display:flex; align-items:center; background:#f9f9f9; border-radius:10px; padding:10px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,0.05);
@@ -151,31 +174,23 @@
   }
   #finalizeBtn:hover { background:#219150; }
 
-  /* Rodapé */
+  /* Rodapé mais limpo */
   footer {
     background:#222; color:#fff; text-align:center; padding:20px; margin-top:60px;
   }
   footer a { color:#f4a261; text-decoration:none; }
   footer a:hover { text-decoration:underline; }
 
-  /* Ícone do carrinho fixo */
+  /* Ícone carrinho fixo */
   #cartButton {
     position:fixed; bottom:20px; right:20px;
     background-color:#27ae60; color:#fff; padding:15px 20px; border-radius:50px; cursor:pointer; display:flex; align-items:center; gap:10px; font-size:1.2em; box-shadow:0 4px 8px rgba(0,0,0,0.2); transition:background 0.3s;
   }
   #cartButton:hover { background:#219150; }
 
-  /* Melhorias visuais na modal de login */
-  #authModal .modal-content {
-    padding:30px 40px;
-  }
-  #authModal h3 {
-    font-size:2em;
-    margin-bottom:20px;
-  }
-  #authMessage {
-    min-height: 1em;
-    margin-bottom: 10px;
+  /* Animações sutis */
+  #userBtn span {
+    font-size: 0.9em;
   }
 </style>
 </head>
@@ -214,7 +229,8 @@
   <!-- Cabeçalho -->
   <header>
     <div class="logo" id="logo">Loja Futebol Top</div>
-    <button id="userBtn">Login / Registrar</button>
+    <!-- Botão de login pequeno no canto superior direito -->
+    <button id="userBtn" title="Entrar / Registrar"><i class="fas fa-user"></i></button>
   </header>
 
   <!-- Espaço para evitar sobreposição -->
@@ -337,29 +353,29 @@
   // Estado
   let modoAuth = 'login';
 
-  // Funções
+  // Funções de controle de autenticação
   function verificarLogin() {
     const usuario = localStorage.getItem('user');
     if (usuario) {
-      btnAuth.innerHTML = `Olá, ${usuario} | <span style="cursor:pointer; text-decoration:underline;">Sair</span>`;
-      btnAuth.querySelector('span').onclick = () => {
+      btnAuth.innerHTML = `<i class="fas fa-user"></i> ${usuario} <span style="margin-left:8px; font-size:0.9em; color:#555; cursor:pointer;">Sair</span>`;
+      btnAuth.onclick = () => {
         localStorage.removeItem('user');
         verificarLogin();
       };
     } else {
-      btnAuth.innerHTML = 'Login / Registrar';
+      btnAuth.innerHTML = `<i class="fas fa-user"></i>`;
+      btnAuth.title = "Entrar / Registrar";
       btnAuth.onclick = () => abrirModalAuth('login');
     }
   }
 
-  // Abrir modal login/register
   function abrirModalAuth(modo) {
     modoAuth = modo;
-    authTitle.innerText = modo === 'login' ? 'Login' : 'Registrar-se';
+    authTitle.innerText = modo === 'login' ? 'Entrar na Conta' : 'Criar Conta';
     authUser.value = '';
     authPass.value = '';
     authMessage.innerHTML = '';
-    switchAuthLink.innerText = modo === 'login' ? 'Registrar-se' : 'Entrar';
+    switchAuthLink.innerText = modo === 'login' ? 'Criar uma nova conta' : 'Já tenho uma conta';
     authModal.classList.add('show');
   }
 
@@ -368,25 +384,24 @@
     authModal.classList.remove('show');
   };
 
-  // Alternar modo
+  // Trocar modo
   document.getElementById('switchAuthLink').onclick = (e) => {
     e.preventDefault();
     abrirModalAuth(modoAuth === 'login' ? 'register' : 'login');
   };
 
-  // Validação avançada de senha
+  // Validação de senha mais forte
   function validarSenha(senha) {
     const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{6,}$/;
     return regex.test(senha);
   }
 
-  // Evento de login ou registro
-authForm.onsubmit = () => {
+  authForm.onsubmit = () => {
     const usuario = authUser.value.trim();
     const senha = authPass.value.trim();
 
     if (!usuario || !senha) {
-      authMessage.innerHTML = 'Por favor, preencha todos os campos.';
+      authMessage.innerHTML = 'Preencha todos os campos.';
       return false;
     }
 
@@ -406,154 +421,139 @@ authForm.onsubmit = () => {
       // Registro
       if (usuarios[usuario]) {
         authMessage.innerHTML = 'Nome de usuário já existe.';
-        return false;
+      } else {
+        if (!validarSenha(senha)) {
+          authMessage.innerHTML = 'Senha forte: pelo menos 6 caracteres, incluindo letras, números e caracteres especiais.';
+          return false;
+        }
+        usuarios[usuario] = senha;
+        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+        alert('Conta criada! Agora faça login.');
+        abrirModalAuth('login');
       }
-      if (!validarSenha(senha)) {
-        authMessage.innerHTML = 'A senha deve ter pelo menos 6 caracteres, incluindo letras, números e caracteres especiais.';
-        return false;
-      }
-      usuarios[usuario] = senha;
-      localStorage.setItem('usuarios', JSON.stringify(usuarios));
-      alert('Conta criada! Agora faça login.');
-      abrirModalAuth('login');
     }
     return false;
   };
 
-  // Atualizar botão de login
-function verificarLogin() {
-  const usuario = localStorage.getItem('user');
-  if (usuario) {
-    btnAuth.innerHTML = `Olá, ${usuario} | <span style="cursor:pointer; text-decoration:underline;">Sair</span>`;
-    btnAuth.querySelector('span').onclick = () => {
-      localStorage.removeItem('user');
-      verificarLogin();
-    };
-  } else {
-    btnAuth.innerHTML = 'Login / Registrar';
-    btnAuth.onclick = () => abrirModalAuth('login');
-  }
-}
+  // Atualizar o botão de login
+  verificarLogin();
 
-// Mostrar carrinho
-function mostrarCarrinho() {
-  document.getElementById('cartItems').innerHTML = '';
-  if (carrinho.length === 0) {
-    document.getElementById('cartItems').innerHTML = '<p style="text-align:center; padding:40px; font-size:1.2em;">Carrinho vazio.</p>';
-    document.getElementById('finalizeBtn').style.display='none';
-    return;
-  }
-  let total = 0;
-  carrinho.forEach((item, index) => {
-    total += item.preco;
-    const div = document.createElement('div');
-    div.className = 'cart-item';
-    div.innerHTML = `
-      <img src="${item.imagem}" />
-      <div class="cart-details">
-        <h4>${item.nome}</h4>
-        <p>€${item.preco.toFixed(2)}</p>
-      </div>
-      <button class="remove-btn" onclick="removerItem(${index})">&times;</button>
-    `;
-    document.getElementById('cartItems').appendChild(div);
-  });
-  document.getElementById('finalizeBtn').style.display='block';
-}
-
-// Remover item
-function removerItem(index) {
-  carrinho.splice(index,1);
-  salvarCarrinho();
-  mostrarCarrinho();
-}
-
-// Finalizar compra
-document.getElementById('finalizeBtn').onclick = () => {
-  if (carrinho.length === 0) {
-    alert('Seu carrinho está vazio');
-    return;
-  }
-  alert('Compra finalizada! Obrigado.');
-  carrinho = [];
-  salvarCarrinho();
-  mostrarCarrinho();
-};
-
-// Abrir carrinho
-function abrirCarrinho() {
-  mostrarCarrinho();
-  document.getElementById('cartModal').classList.add('show');
-}
-document.getElementById('cartButton').onclick = abrirCarrinho;
-document.getElementById('closeCart').onclick = () => {
-  document.getElementById('cartModal').classList.remove('show');
-};
-
-// Filtros e pesquisa
-categoryFilter.onchange = renderizarProdutos;
-brandFilter.onchange = renderizarProdutos;
-searchInput.oninput = renderizarProdutos;
-
-// Menu móvel
-document.getElementById('menuToggle').onclick = () => {
-  sideMenu.classList.toggle('open');
-};
-
-// Renderizar produtos
-function renderizarProdutos() {
-  const categoriaFiltro = categoryFilter.value;
-  const marcaFiltro = brandFilter.value;
-  const termoBusca = searchInput.value.toLowerCase();
-
-  const filtrados = produtos.filter(p => 
-    (categoriaFiltro === 'all' || p.categoria === categoriaFiltro) &&
-    (marcaFiltro === 'all' || p.marca === marcaFiltro) &&
-    p.nome.toLowerCase().includes(termoBusca)
-  );
-
-  productGrid.innerHTML = '';
-
-  if (filtrados.length === 0) {
-    productGrid.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px; font-size:1.2em;">Nenhum produto encontrado.</p>';
-    return;
-  }
-
-  filtrados.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = `
-      <img src="${p.imagem}" alt="${p.nome}" class="product-image" />
-      <div class="product-info">
-        <div>
-          <div class="product-name">${p.nome}</div>
-          <div class="product-price">€${p.preco.toFixed(2)}</div>
+  // Carrinho
+  function mostrarCarrinho() {
+    document.getElementById('cartItems').innerHTML = '';
+    if (carrinho.length === 0) {
+      document.getElementById('cartItems').innerHTML = '<p style="text-align:center; padding:40px; font-size:1.2em;">Carrinho vazio.</p>';
+      document.getElementById('finalizeBtn').style.display='none';
+      return;
+    }
+    let total = 0;
+    carrinho.forEach((item, index) => {
+      total += item.preco;
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <img src="${item.imagem}" />
+        <div class="cart-details">
+          <h4>${item.nome}</h4>
+          <p>€${item.preco.toFixed(2)}</p>
         </div>
-        <button class="buy-btn" onclick="adicionarAoCarrinho(${p.id})">Adicionar ao Carrinho</button>
-      </div>
-    `;
-    productGrid.appendChild(card);
-  });
-}
-
-// Adicionar ao carrinho
-function adicionarAoCarrinho(id) {
-  const produto = produtos.find(p => p.id === id);
-  if (produto) {
-    carrinho.push(produto);
-    salvarCarrinho();
-    alert(`"${produto.nome}" adicionado ao carrinho`);
+        <button class="remove-btn" onclick="removerItem(${index})">&times;</button>
+      `;
+      document.getElementById('cartItems').appendChild(div);
+    });
+    document.getElementById('finalizeBtn').style.display='block';
   }
-}
 
-// Salvar carrinho
-function salvarCarrinho() {
-  localStorage.setItem('carrinho', JSON.stringify(carrinho));
-}
+  function removerItem(index) {
+    carrinho.splice(index,1);
+    salvarCarrinho();
+    mostrarCarrinho();
+  }
 
-// Init
-verificarLogin();
-renderizarProdutos();
+  document.getElementById('finalizeBtn').onclick = () => {
+    if (carrinho.length === 0) {
+      alert('Seu carrinho está vazio');
+      return;
+    }
+    alert('Compra finalizada! Obrigado.');
+    carrinho = [];
+    salvarCarrinho();
+    mostrarCarrinho();
+  };
+
+  // Abrir carrinho
+  document.getElementById('cartButton').onclick = () => {
+    mostrarCarrinho();
+    document.getElementById('cartModal').classList.add('show');
+  };
+  document.getElementById('closeCart').onclick = () => {
+    document.getElementById('cartModal').classList.remove('show');
+  };
+
+  // Filtros e busca
+  document.getElementById('categoryFilter').onchange = renderizarProdutos;
+  document.getElementById('brandFilter').onchange = renderizarProdutos;
+  document.getElementById('searchInput').oninput = renderizarProdutos;
+
+  // Menu mobile
+  document.getElementById('menuToggle').onclick = () => {
+    sideMenu.classList.toggle('open');
+  };
+
+  // Renderizar produtos
+  function renderizarProdutos() {
+    const categoriaFiltro = document.getElementById('categoryFilter').value;
+    const marcaFiltro = document.getElementById('brandFilter').value;
+    const termoBusca = document.getElementById('searchInput').value.toLowerCase();
+
+    const filtrados = produtos.filter(p => 
+      (categoriaFiltro === 'all' || p.categoria === categoriaFiltro) &&
+      (marcaFiltro === 'all' || p.marca === marcaFiltro) &&
+      p.nome.toLowerCase().includes(termoBusca)
+    );
+
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = '';
+
+    if (filtrados.length === 0) {
+      grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px; font-size:1.2em;">Nenhum produto encontrado.</p>';
+      return;
+    }
+
+    filtrados.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${p.imagem}" alt="${p.nome}" class="product-image" />
+        <div class="product-info">
+          <div>
+            <div class="product-name">${p.nome}</div>
+            <div class="product-price">€${p.preco.toFixed(2)}</div>
+          </div>
+          <button class="buy-btn" onclick="adicionarAoCarrinho(${p.id})">Adicionar ao Carrinho</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function adicionarAoCarrinho(id) {
+    const produto = produtos.find(p => p.id === id);
+    if (produto) {
+      carrinho.push(produto);
+      salvarCarrinho();
+      alert(`"${produto.nome}" adicionado ao carrinho`);
+    }
+  }
+
+  function salvarCarrinho() {
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+  }
+
+  // Iniciar
+  verificarLogin();
+  renderizarProdutos();
+
 </script>
 </body>
 </html>
