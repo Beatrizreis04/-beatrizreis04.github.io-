@@ -41,7 +41,7 @@
     cursor: pointer;
   }
 
-  /* Botão login estilizado pequeno */
+  /* Botão login pequeno no canto superior direito */
   #userBtn {
     background: transparent;
     border: none;
@@ -148,14 +148,52 @@
   .close-btn { position:absolute; top:15px; right:20px; font-size:1.8em; cursor:pointer; color:#555; }
   h3 { margin-bottom:20px; color:#2a9d8f; font-weight:700; font-size:1.8em; text-align:center; }
   input[type=text], input[type=password] {
-    width:100%; padding:12px; margin-bottom:20px; border-radius:8px; border:1px solid #ccc; font-family:'Montserrat',sans-serif; font-size:1em;
+    width:100%; padding:12px; margin-bottom:20px; border-radius:8px; border:1px solid #ccc; font-family:'Montserrat',sans-serif; font-size:1em; outline:none; transition:border-color 0.2s;
+  }
+  input[type=text]:focus, input[type=password]:focus {
+    border-color:#2a9d8f; box-shadow:0 0 5px rgba(42,157,143,0.3);
   }
   button {
-    width:100%; padding:12px; border:none; border-radius:8px; background:#2a9d8f; color:#fff; font-weight:600; font-size:1.2em; cursor:pointer; transition:background 0.3s;
+    width:100%; padding:12px; border:none; border-radius:8px; background:#2a9d8f; color:#fff; font-weight:600; font-size:1.2em; cursor:pointer; transition:background 0.3s, transform 0.2s;
   }
-  button:hover { background:#218c8f; }
+  button:hover { background:#218c8f; transform:translateY(-2px); }
   #authMessage {
     min-height:1em; font-size:0.9em; color:#d33; margin-bottom:10px; text-align:center;
+  }
+  #authModal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+  }
+  #authModal.show { display: flex; }
+  #authModal .modal-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    animation: fadeIn 0.3s ease;
+  }
+  #closeAuth {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 1.5em;
+    color: #999;
+    transition: color 0.2s;
+  }
+  #closeAuth:hover { color: #333; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   /* Carrinho estilo mais limpo */
@@ -283,15 +321,23 @@
 <div class="modal" id="authModal">
   <div class="modal-content">
     <div class="close-btn" id="closeAuth"><i class="fas fa-times"></i></div>
-    <h3 id="authTitle">Login</h3>
+    <h3 id="authTitle">Entrar na Conta</h3>
     <form id="authForm" onsubmit="return false;">
-      <input type="text" id="authUser" placeholder="Nome de usuário" required />
-      <input type="password" id="authPass" placeholder="Senha" required />
-      <button type="submit" id="authActionBtn">Entrar</button>
+      <div style="margin-bottom:15px; position:relative;">
+        <label for="authUser" style="display:none;">Nome de usuário</label>
+        <input type="text" id="authUser" placeholder="Nome de usuário" required />
+        <i class="fas fa-user" style="position:absolute; top:50%; right:15px; transform:translateY(-50%); color:#999;"></i>
+      </div>
+      <div style="margin-bottom:15px; position:relative;">
+        <label for="authPass" style="display:none;">Senha</label>
+        <input type="password" id="authPass" placeholder="Senha" required />
+        <i class="fas fa-lock" style="position:absolute; top:50%; right:15px; transform:translateY(-50%); color:#999;"></i>
+      </div>
+      <button type="submit" id="authActionBtn" style="width:100%; margin-top:10px;">Entrar</button>
     </form>
     <div id="authMessage"></div>
     <p style="margin-top:15px; text-align:center;">
-      <a href="#" id="switchAuthLink">Registrar-se</a>
+      <a href="#" id="switchAuthLink" style="color:#2a9d8f; text-decoration:none; font-weight:600;">Criar uma nova conta</a>
     </p>
   </div>
 </div>
@@ -501,7 +547,7 @@
   };
 
   // Renderizar produtos
-  function renderizarProdutos() {
+ function renderizarProdutos() {
     const categoriaFiltro = document.getElementById('categoryFilter').value;
     const marcaFiltro = document.getElementById('brandFilter').value;
     const termoBusca = document.getElementById('searchInput').value.toLowerCase();
